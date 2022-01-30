@@ -1,0 +1,306 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.content-center {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 10px;
+}
+
+.header,
+.footer {
+  display: flex;
+  align-items: center;
+  padding: 20px 10px;
+  text-align: center;
+}
+
+.header .left-nav {
+  width: 40%;
+  margin: 0 40px;
+}
+
+.header .right-nav {
+  width: 350px;
+  margin-left: auto;
+}
+
+.header nav ul {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header nav ul li {
+  position: relative;
+}
+
+.header nav ul li .dropdown {
+  display: none;
+  position: absolute;
+  z-index: 1000;
+}
+
+.header nav ul li .dropdown ul {
+  display: block;
+  background: #fff;
+  box-shadow: 0 0 8px #ccc;
+  border-radius: 10px;
+  padding: 20px 15px 5px;
+  margin-top: 10px;
+  width: 300px;
+}
+
+.header nav ul li .dropdown li {
+  margin-bottom: 15px;
+  text-align: left;
+  font-size: 18px;
+}
+
+.header nav ul li .dropdown li small {
+  font-size: 16px;
+  color: #666;
+}
+
+.header nav ul li:hover .dropdown {
+  display: block;
+}
+
+.header nav ul li .btn {
+  margin: 0;
+}
+
+.card {
+  margin-bottom: 10px;
+  padding: 15px;
+}
+
+.spotlight {
+  background: #0b1736;
+}
+
+.spotlight.blog {
+  background: #eee;
+}
+
+.spotlight.blog > .content-center {
+  display: flex;
+}
+
+.spotlight .about,
+.spotlight .newsletter {
+  width: 50%;
+  padding: 20px 45px;
+  text-align: left;
+}
+
+.spotlight .newsletter form {
+  margin: 20px 0 20px;
+}
+
+.spotlight .newsletter form label {
+  display: block;
+}
+
+.spotlight .newsletter form input {
+  height: 42px;
+  width: 280px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.spotlight .newsletter form .btn {
+  margin: 0;
+}
+
+.spotlight .newsletter form p {
+  font-size: 12px;
+  padding-top: 10px;
+}
+
+.footer {
+  padding: 50px 10px;
+}
+
+.footer nav {
+  display: flex;
+  flex-grow: 1;
+}
+
+.footer nav ul {
+  margin-right: 25px;
+}
+
+/* Homepage */
+.hero {
+  background-repeat: no-repeat;
+  background-position: bottom right;
+  background-size: contain;
+  min-height: 250px;
+  padding: 50px 20px;
+  margin-bottom: 50px;
+  display: flex;
+  flex-direction: column;
+}
+
+.hero .btn,
+.hero-detail .btn {
+  width: 300px;
+  margin: 0;
+}
+
+.hero-detail {
+  display: flex;
+}
+
+.hero-detail.left-align-thumbnail {
+  flex-direction: row-reverse;
+}
+
+.hero-detail .left {
+  width: 550px;
+}
+
+.hero-detail:not(.left-align-thumbnail) .right {
+  margin-left: auto;
+}
+
+.btn {
+  @apply ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-700 hover:bg-blue-900;
+}
+
+/* Blog */
+.hero-blog {
+  min-height: 250px;
+  padding: 0;
+  margin-bottom: 50px;
+  display: flex;
+  background: #fff;
+  box-shadow: 0 0 8px #ccc;
+  border-radius: 5px;
+}
+
+.hero-blog .left {
+  width: 490px;
+  margin-right: 20px;
+}
+
+.hero-blog .right {
+  padding: 20px;
+  flex: 1;
+}
+
+.hero-blog .right .btn {
+  margin-left: 0;
+}
+
+.bottom-cta {
+  background: #eee;
+  padding: 30px 0;
+}
+
+/* Resource page */
+.resource-page .content {
+  margin-bottom: 20px;
+}
+
+.resource-page .content img {
+  max-width: 600px;
+}
+
+.resource-page .content p {
+  padding-bottom: 30px;
+  font-size: 20px;
+}
+
+.resource-page .content ul {
+  list-style-type: disc;
+}
+
+.resource-page .content ul li {
+  margin-bottom: 10px;
+}
+
+.resource-page .content ul li p {
+  padding-bottom: 0;
+}
+
+/* Resources Index */
+.resources-index .stage {
+  display: flex;
+  flex-direction: row-reverse;
+  margin-bottom: 50px;
+}
+
+.resources-index .stage main {
+  flex: 1;
+}
+
+.resources-index .stage aside {
+  margin-right: 100px;
+}
+
+.resources-index .stage aside header {
+  font-size: 22px;
+}
+
+.resources-index .stage aside .tag {
+  display: inline-block;
+  padding: 10px 20px;
+  margin-bottom: 20px;
+  border-radius: 30px;
+  background: #eee;
+  color: #444;
+  font-size: 20px;
+}
+
+.resources-index .hero {
+  background-size: 500px;
+  background-position: top right;
+}
+
+.resources-index .hero h2 {
+  padding-right: 500px;
+  font-size: 45px;
+  margin-top: -40px;
+}
+
+.resources-index .hero p {
+  margin-bottom: -20px;
+}
+
+.resources-index .card {
+  border: 1px solid #eee;
+  box-shadow: 0 0 8px #eee;
+  border-radius: 5px;
+  overflow: hidden;
+  width: 320px;
+  padding: 0;
+  margin-right: 30px;
+}
+
+.resources-index .card header {
+  padding: 10px 20px;
+}
