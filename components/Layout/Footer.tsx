@@ -1,38 +1,41 @@
 import type { NextPage } from 'next';
 import type { LinkBlok } from './_data';
-import { resourcesDropdown } from './_data';
 import Image from 'next/image';
 import Link from '@components/Link';
+import { navigationItems } from './_data';
+import { getDropdownItems } from './_utils';
 
 const Footer: NextPage<{
-  navLinks: LinkBlok[];
-}> = ({ navLinks }) => {
+  links: LinkBlok[];
+}> = ({ links }) => {
   return (
     <footer className="footer content-center">
       <nav>
-        {navLinks
-          .sort((a, b) => b.position - a.position)
-          .filter(({ is_folder }) => is_folder)
-          .map((parentLink) => {
-            const dropdownLinks = navLinks.filter(
-              (childLink) => childLink.parent_id === parentLink.id
-            );
+        {navigationItems.map(
+          ({ storyblokFolderId, label, hasDropdown, dropdownItems }) => {
+            if (hasDropdown && !dropdownItems) {
+              dropdownItems = getDropdownItems(links, storyblokFolderId);
+            }
 
             return (
-              <ul key={parentLink.uuid}>
+              <ul key={label}>
                 <li>
-                  <strong>{parentLink.name}</strong>
+                  <strong>{label}</strong>
+
+                  {hasDropdown && dropdownItems.length > 0 && (
+                    <ul>
+                      {dropdownItems.map(({ label, url }) => (
+                        <li key={label}>
+                          <Link href={url}>{label}</Link>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </li>
-                {parentLink.slug === 'resources'
-                  ? resourcesDropdown
-                  : dropdownLinks.map(({ uuid, name, slug }) => (
-                      <li key={uuid}>
-                        <Link href={`/pages/${slug}`}>{name}</Link>
-                      </li>
-                    ))}
               </ul>
             );
-          })}
+          }
+        )}
       </nav>
       <div>
         <Image

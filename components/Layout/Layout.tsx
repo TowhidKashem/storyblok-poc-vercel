@@ -15,7 +15,7 @@ export interface LayoutProps {
 const Layout: NextPage<{
   readonly layout: LayoutProps;
 }> = ({ layout, children }) => {
-  const navLinks = objectToArray(layout.links);
+  const links = objectToArray(layout.links);
 
   const { header, bottom_cta } = layout.story.content;
 
@@ -26,13 +26,13 @@ const Layout: NextPage<{
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Header leftNav={navLinks} rightNav={header[0]} />
+      <Header links={links} rightNav={header[0]} />
 
       <main className="content">{children}</main>
 
       <CTA bottom_cta={bottom_cta[0]} />
 
-      <Footer navLinks={navLinks} />
+      <Footer links={links} />
     </div>
   );
 };
