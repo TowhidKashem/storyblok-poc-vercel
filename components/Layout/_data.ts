@@ -54,18 +54,18 @@ export const navigationItems: NavigationItem[] = [
   {
     storyblokFolderId: null,
     label: 'Pricing',
-    url: '/pages/pricing/pricing',
+    url: '/pricing',
     hasDropdown: false
   },
   {
     storyblokFolderId: 103429440,
     label: 'Resources',
-    url: '/Resources',
+    url: '/resources',
     hasDropdown: true,
     dropdownItems: [
       {
         label: 'Blog',
-        url: '/Blog',
+        url: '/blog',
         description: 'Tips, best practices and more'
       },
       {
@@ -75,7 +75,7 @@ export const navigationItems: NavigationItem[] = [
       },
       {
         label: 'Resources Library',
-        url: '/Resources',
+        url: '/resources',
         description: 'Ebooks and webinars'
       },
       {

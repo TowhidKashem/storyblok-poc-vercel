@@ -7,10 +7,10 @@ import Layout, { LayoutProps } from '@components/Layout/Layout';
 import Hero from '@components/Hero';
 import HeroDetail from '@components/HeroDetail';
 
-const Post: NextPage<{ story: InnerPageStoryblok; layout: LayoutProps }> = ({
-  story,
-  layout
-}) => {
+const Category: NextPage<{
+  story: InnerPageStoryblok;
+  layout: LayoutProps;
+}> = ({ story, layout }) => {
   story = useStoryBlok(story);
 
   const { hero, detail_cards } = story.content;
@@ -44,14 +44,15 @@ export async function getStaticPaths() {
   });
 
   return {
-    paths: stories.map(({ full_slug }) => '/pages/' + full_slug),
+    paths: stories.map(({ full_slug }) => '/' + full_slug),
     fallback: false
   };
 }
 
-export const getStaticProps: GetStaticProps = async (context) => {
-  const [category, page] = context.params.slug as string[];
-  const { story, layout } = await getStory(`${category}/${page}`);
+export const getStaticProps: GetStaticProps = async ({
+  params: { category, slug }
+}) => {
+  const { story, layout } = await getStory(`${category}/${slug}`);
 
   return {
     props: {
@@ -61,4 +62,4 @@ export const getStaticProps: GetStaticProps = async (context) => {
   };
 };
 
-export default Post;
+export default Category;

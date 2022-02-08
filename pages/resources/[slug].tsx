@@ -6,17 +6,13 @@ import useStoryBlok from '@hooks/useStoryBlok';
 import { getStory, getStories } from '@utils/api';
 import Layout, { LayoutProps } from '@components/Layout/Layout';
 
-const ResourcePage: NextPage<{
+const Resource: NextPage<{
   story: InnerPageStoryblok;
   layout: LayoutProps;
 }> = ({ story, layout }) => {
   story = useStoryBlok(story);
 
-  console.log('story', story);
-
   const { title, body } = story.content;
-
-  story.tag_list;
 
   return (
     <SbEditable content={story.content}>
@@ -45,8 +41,8 @@ export async function getStaticPaths() {
   };
 }
 
-export const getStaticProps: GetStaticProps = async (context) => {
-  const { story, layout } = await getStory(`resources/${context.params.slug}`);
+export const getStaticProps: GetStaticProps = async ({ params: { slug } }) => {
+  const { story, layout } = await getStory(`resources/${slug}`);
 
   return {
     props: {
@@ -56,4 +52,4 @@ export const getStaticProps: GetStaticProps = async (context) => {
   };
 };
 
-export default ResourcePage;
+export default Resource;
