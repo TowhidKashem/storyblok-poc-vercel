@@ -7,7 +7,7 @@ import Layout, { LayoutProps } from '@components/Layout/Layout';
 import Hero from '@components/Hero';
 import HeroDetail from '@components/HeroDetail';
 
-const Category: NextPage<{
+const CategoryPage: NextPage<{
   story: InnerPageStoryblok;
   layout: LayoutProps;
 }> = ({ story, layout }) => {
@@ -38,7 +38,7 @@ export async function getStaticPaths() {
   const stories = await getStories({
     filter_query: {
       component: {
-        in: 'Inner Page'
+        in: 'Category Page'
       }
     }
   });
@@ -62,4 +62,4 @@ export const getStaticProps: GetStaticProps = async ({
   };
 };
 
-export default Category;
+export default CategoryPage;

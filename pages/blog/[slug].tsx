@@ -1,33 +1,25 @@
 import type { NextPage, GetStaticProps } from 'next';
 import type { InnerPageStoryblok } from 'storyblok.types';
 import SbEditable from 'storyblok-react';
+import { render } from 'storyblok-rich-text-react-renderer';
 import useStoryBlok from '@hooks/useStoryBlok';
 import { getStory, getStories } from '@utils/api';
 import Layout, { LayoutProps } from '@components/Layout/Layout';
-import Hero from '@components/Hero';
-import HeroDetail from '@components/HeroDetail';
 
-const Category: NextPage<{
+const BlogPost: NextPage<{
   story: InnerPageStoryblok;
   layout: LayoutProps;
 }> = ({ story, layout }) => {
   story = useStoryBlok(story);
 
-  const { hero, detail_cards } = story.content;
+  const { title, body } = story.content;
 
   return (
     <SbEditable content={story.content}>
       <Layout layout={layout}>
-        <section className="page content-center">
-          <Hero blok={hero[0]} />
-
-          {detail_cards.map((card: any, index: number) => (
-            <HeroDetail
-              key={card._uid}
-              blok={card}
-              alignImageLeft={index % 2 !== 0}
-            />
-          ))}
+        <section className="resource-page content-center">
+          <h1 className="text-4xl font-bold mb-5">{title}</h1>
+          <main className="content">{render(body)}</main>
         </section>
       </Layout>
     </SbEditable>
@@ -38,7 +30,7 @@ export async function getStaticPaths() {
   const stories = await getStories({
     filter_query: {
       component: {
-        in: 'Inner Page'
+        in: 'Blog Post'
       }
     }
   });
@@ -49,10 +41,8 @@ export async function getStaticPaths() {
   };
 }
 
-export const getStaticProps: GetStaticProps = async ({
-  params: { category, slug }
-}) => {
-  const { story, layout } = await getStory(`${category}/${slug}`);
+export const getStaticProps: GetStaticProps = async ({ params: { slug } }) => {
+  const { story, layout } = await getStory(`blog/${slug}`);
 
   return {
     props: {
@@ -62,4 +52,4 @@ export const getStaticProps: GetStaticProps = async ({
   };
 };
 
-export default Category;
+export default BlogPost;

@@ -7,10 +7,10 @@ import Feature from '@components/Feature';
 import Layout, { LayoutProps } from '@components/Layout/Layout';
 import Hero from '@components/Hero';
 
-const Home: NextPage<{ story: PageStoryblok; layout: LayoutProps }> = ({
-  story,
-  layout
-}) => {
+const Home: NextPage<{
+  readonly story: PageStoryblok;
+  readonly layout: LayoutProps;
+}> = ({ story, layout }) => {
   story = useStoryBlok(story);
 
   const { hero, card_spotlight, faq } = story.content;

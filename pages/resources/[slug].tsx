@@ -6,7 +6,7 @@ import useStoryBlok from '@hooks/useStoryBlok';
 import { getStory, getStories } from '@utils/api';
 import Layout, { LayoutProps } from '@components/Layout/Layout';
 
-const Resource: NextPage<{
+const ResourcePage: NextPage<{
   story: InnerPageStoryblok;
   layout: LayoutProps;
 }> = ({ story, layout }) => {
@@ -30,7 +30,7 @@ export async function getStaticPaths() {
   const stories = await getStories({
     filter_query: {
       component: {
-        in: 'Resource Page'
+        in: 'Resource Post'
       }
     }
   });
@@ -52,4 +52,4 @@ export const getStaticProps: GetStaticProps = async ({ params: { slug } }) => {
   };
 };
 
-export default Resource;
+export default ResourcePage;

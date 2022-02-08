@@ -9,7 +9,7 @@ import Hero from '@components/Hero';
 import Card from '@components/Card';
 import Link from '@components/Link';
 
-const Resources: NextPage<{
+const ResourceIndex: NextPage<{
   story: PageStoryblok;
   layout: LayoutProps;
   tags: any;
@@ -55,7 +55,7 @@ const Resources: NextPage<{
 
 export async function getStaticProps() {
   // get index page's story and base layout
-  const { story, layout } = await getStory('resource-index');
+  const { story, layout } = await getStory('resources/resource-index');
 
   // get tags
   const {
@@ -66,7 +66,7 @@ export async function getStaticProps() {
   const posts = await getStories({
     filter_query: {
       component: {
-        in: 'Resource Page'
+        in: 'Resource Post'
       }
     }
   });
@@ -81,4 +81,4 @@ export async function getStaticProps() {
   };
 }
 
-export default Resources;
+export default ResourceIndex;

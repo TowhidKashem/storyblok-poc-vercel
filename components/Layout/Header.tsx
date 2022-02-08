@@ -13,6 +13,8 @@ const Header: NextPage<{
 }> = ({ links, rightNav }) => {
   const quoteButton = rightNav.buttons[0];
 
+  // console.log('links', links);
+
   return (
     <header className="header content-center">
       <Link href="/">

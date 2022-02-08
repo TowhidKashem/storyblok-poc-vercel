@@ -7,9 +7,9 @@ export const getDropdownItems = (
 ): DropdownItem[] => {
   return links
     .filter(({ parent_id }) => parent_id === storyblokFolderId)
-    .map(({ name, path }) => ({
+    .map(({ name, real_path }) => ({
       label: name,
-      url: path,
+      url: real_path,
       description: ''
     }));
 };
