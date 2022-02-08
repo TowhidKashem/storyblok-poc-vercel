@@ -11,7 +11,7 @@ const Header: NextPage<{
   readonly links: LinkBlok[];
   readonly rightNav: HeaderStoryblok;
 }> = ({ links, rightNav }) => {
-  const quoteButton = rightNav.buttons[0];
+  const quoteButton = rightNav.buttons.first();
 
   // console.log('links', links);
 

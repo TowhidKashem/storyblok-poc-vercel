@@ -4,6 +4,20 @@ import { getStories } from '@utils/api';
 import Script from 'next/script';
 import '@styles/globals.css';
 
+declare global {
+  interface Array<T> {
+    first(this: T[]): T;
+  }
+}
+
+if (!Array.prototype.first) {
+  Object.defineProperty(Array.prototype, 'first', {
+    value() {
+      return this.find(Boolean);
+    }
+  });
+}
+
 function App({ Component, pageProps }: AppProps) {
   // useEffect(() => {
   //   (async () => {

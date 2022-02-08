@@ -25,7 +25,7 @@ const ResourceIndex: NextPage<{
     <SbEditable content={story.content}>
       <Layout layout={layout}>
         <section className="resources-index content-center">
-          <Hero blok={hero[0]} />
+          <Hero blok={hero.first()} />
 
           <section className="stage">
             <main className="flex">
@@ -66,7 +66,7 @@ export async function getStaticProps() {
   const posts = await getStories({
     filter_query: {
       component: {
-        in: 'Resource Post'
+        in: 'resource_page'
       }
     }
   });

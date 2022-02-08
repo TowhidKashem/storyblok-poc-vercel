@@ -3,7 +3,8 @@ import type { HeroStoryblok } from 'storyblok.types';
 import SbEditable from 'storyblok-react';
 
 const Hero: NextPage<{ blok: HeroStoryblok }> = ({ blok }) => {
-  const { title, description, image, button } = blok;
+  const { title, description, image } = blok;
+  const button = blok.button.first();
 
   return (
     <SbEditable content={blok}>
@@ -13,11 +14,8 @@ const Hero: NextPage<{ blok: HeroStoryblok }> = ({ blok }) => {
       >
         <h2 className="font-bold text-6xl mb-5">{title}</h2>
         <p className="text-2xl text-gray-500 mb-10 w-6/12">{description}</p>
-        <a
-          href={button[0].url}
-          className="btn text-xl font-normal py-4 px-8 mb-3"
-        >
-          {button[0].label}
+        <a href={button.url} className="btn text-xl font-normal py-4 px-8 mb-3">
+          {button.label}
         </a>
       </section>
     </SbEditable>

@@ -6,20 +6,20 @@ import useStoryBlok from '@hooks/useStoryBlok';
 import { getStory, getStories } from '@utils/api';
 import Layout, { LayoutProps } from '@components/Layout/Layout';
 
-const BlogPost: NextPage<{
-  story: InnerPageStoryblok;
-  layout: LayoutProps;
+const AuthorPage: NextPage<{
+  readonly story: InnerPageStoryblok;
+  readonly layout: LayoutProps;
 }> = ({ story, layout }) => {
   story = useStoryBlok(story);
 
-  const { title, body } = story.content;
+  const { name, bio } = story.content;
 
   return (
     <SbEditable content={story.content}>
       <Layout layout={layout}>
         <section className="resource-page content-center">
-          <h1 className="text-4xl font-bold mb-5">{title}</h1>
-          <main className="content">{render(body)}</main>
+          <h1 className="text-4xl font-bold mb-5">{name}</h1>
+          <main className="content">{bio}</main>
         </section>
       </Layout>
     </SbEditable>
@@ -30,7 +30,7 @@ export async function getStaticPaths() {
   const stories = await getStories({
     filter_query: {
       component: {
-        in: 'Blog Post'
+        in: 'blog_author'
       }
     }
   });
@@ -41,8 +41,10 @@ export async function getStaticPaths() {
   };
 }
 
-export const getStaticProps: GetStaticProps = async ({ params: { slug } }) => {
-  const { story, layout } = await getStory(`blog/${slug}`);
+export const getStaticProps: GetStaticProps = async ({
+  params: { author }
+}) => {
+  const { story, layout } = await getStory(`blog/author/${author}`);
 
   return {
     props: {
@@ -52,4 +54,4 @@ export const getStaticProps: GetStaticProps = async ({ params: { slug } }) => {
   };
 };
 
-export default BlogPost;
+export default AuthorPage;

@@ -26,11 +26,11 @@ const Layout: NextPage<{
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Header links={links} rightNav={header[0]} />
+      <Header links={links} rightNav={header.first()} />
 
       <main className="content">{children}</main>
 
-      <CTA bottom_cta={bottom_cta[0]} />
+      <CTA bottom_cta={bottom_cta.first()} />
 
       <Footer links={links} />
     </div>

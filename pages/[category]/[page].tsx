@@ -8,8 +8,8 @@ import Hero from '@components/Hero';
 import HeroDetail from '@components/HeroDetail';
 
 const CategoryPage: NextPage<{
-  story: InnerPageStoryblok;
-  layout: LayoutProps;
+  readonly story: InnerPageStoryblok;
+  readonly layout: LayoutProps;
 }> = ({ story, layout }) => {
   story = useStoryBlok(story);
 
@@ -19,7 +19,7 @@ const CategoryPage: NextPage<{
     <SbEditable content={story.content}>
       <Layout layout={layout}>
         <section className="page content-center">
-          <Hero blok={hero[0]} />
+          <Hero blok={hero.first()} />
 
           {detail_cards.map((card: any, index: number) => (
             <HeroDetail
@@ -38,7 +38,7 @@ export async function getStaticPaths() {
   const stories = await getStories({
     filter_query: {
       component: {
-        in: 'Category Page'
+        in: 'category_page'
       }
     }
   });
@@ -50,9 +50,9 @@ export async function getStaticPaths() {
 }
 
 export const getStaticProps: GetStaticProps = async ({
-  params: { category, slug }
+  params: { category, page }
 }) => {
-  const { story, layout } = await getStory(`${category}/${slug}`);
+  const { story, layout } = await getStory(`${category}/${page}`);
 
   return {
     props: {

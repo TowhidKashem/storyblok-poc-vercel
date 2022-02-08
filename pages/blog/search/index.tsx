@@ -1,21 +1,25 @@
 import type { NextPage } from 'next';
 import type { PageStoryblok } from 'storyblok.types';
 import SbEditable from 'storyblok-react';
+import Storyblok from '@lib/storyblok';
 import useStoryBlok from '@hooks/useStoryBlok';
-import { getStory, getStories } from '@utils/api';
+import { getStory, getStories, makeParams } from '@utils/api';
 import Layout, { LayoutProps } from '@components/Layout/Layout';
 import Hero from '@components/Hero';
 import Card from '@components/Card';
 import Link from '@components/Link';
 
-const BlogHome: NextPage<{
-  story: PageStoryblok;
-  layout: LayoutProps;
-  posts: any;
-}> = ({ story, layout, posts }) => {
+const SearchPage: NextPage<{
+  readonly story: PageStoryblok;
+  readonly layout: LayoutProps;
+  readonly tags: any;
+  readonly posts: any;
+}> = ({ story, layout, tags, posts }) => {
   story = useStoryBlok(story);
 
   const { hero } = story.content;
+
+  console.log('posts', posts);
 
   return (
     <SbEditable content={story.content}>
@@ -31,6 +35,17 @@ const BlogHome: NextPage<{
                 </Link>
               ))}
             </main>
+
+            <aside>
+              <header className="font-bold mb-5">Filter Resources</header>
+              <ul>
+                {tags.map((tag: any) => (
+                  <li key={tag.name}>
+                    <span className="tag">{tag.name}</span>
+                  </li>
+                ))}
+              </ul>
+            </aside>
           </section>
         </section>
       </Layout>
@@ -39,12 +54,19 @@ const BlogHome: NextPage<{
 };
 
 export async function getStaticProps() {
-  const { story, layout } = await getStory('blog/blog-index');
+  // get index page's story and base layout
+  const { story, layout } = await getStory('resources/resource-index');
 
+  // get tags
+  const {
+    data: { tags }
+  } = await Storyblok.get('cdn/tags', makeParams());
+
+  // get all posts in the resources folder
   const posts = await getStories({
     filter_query: {
       component: {
-        in: 'blog_post'
+        in: 'resource_page'
       }
     }
   });
@@ -53,9 +75,10 @@ export async function getStaticProps() {
     props: {
       story,
       layout,
+      tags,
       posts
     }
   };
 }
 
-export default BlogHome;
+export default SearchPage;

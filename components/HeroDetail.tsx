@@ -8,7 +8,8 @@ const HeroDetail: NextPage<{
   readonly blok: HeroDetailStoryblok;
   readonly alignImageLeft: boolean;
 }> = ({ blok, alignImageLeft }) => {
-  const { title, description, thumbnail, button } = blok;
+  const { title, description, thumbnail } = blok;
+  const button = blok.button.first();
 
   return (
     <SbEditable content={blok}>
@@ -22,10 +23,10 @@ const HeroDetail: NextPage<{
           <p className="text-md text-gray-500 mb-10">{description}</p>
           {button.length > 0 && (
             <a
-              href={button[0].url}
+              href={button.url}
               className="btn text-xl font-normal py-4 px-8 mb-3"
             >
-              {button[0].label}
+              {button.label}
             </a>
           )}
         </div>

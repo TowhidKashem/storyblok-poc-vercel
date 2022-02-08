@@ -6,7 +6,8 @@ import Link from '@components/Link';
 const CTA: NextPage<{
   readonly bottom_cta: BottomCtaStoryblok;
 }> = ({ bottom_cta }) => {
-  const { url, label } = bottom_cta.button[0];
+  const button = bottom_cta.button.first();
+
   return (
     <SbEditable content={bottom_cta}>
       <section className="spotlight center text-center py-16">
@@ -14,9 +15,9 @@ const CTA: NextPage<{
           <h2 className="font-semibold text-3xl text-white mb-5">
             <span>{bottom_cta.title}</span>
           </h2>
-          <SbEditable content={bottom_cta.button[0]}>
-            <Link href={url} className="btn">
-              {label}
+          <SbEditable content={button}>
+            <Link href={button.url} className="btn">
+              {button.label}
             </Link>
           </SbEditable>
         </section>

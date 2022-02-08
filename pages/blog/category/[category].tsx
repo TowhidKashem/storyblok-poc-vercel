@@ -1,25 +1,23 @@
 import type { NextPage, GetStaticProps } from 'next';
 import type { InnerPageStoryblok } from 'storyblok.types';
 import SbEditable from 'storyblok-react';
-import { render } from 'storyblok-rich-text-react-renderer';
 import useStoryBlok from '@hooks/useStoryBlok';
 import { getStory, getStories } from '@utils/api';
 import Layout, { LayoutProps } from '@components/Layout/Layout';
 
-const ResourcePage: NextPage<{
-  story: InnerPageStoryblok;
-  layout: LayoutProps;
+const CategoryPage: NextPage<{
+  readonly story: InnerPageStoryblok;
+  readonly layout: LayoutProps;
 }> = ({ story, layout }) => {
   story = useStoryBlok(story);
 
-  const { title, body } = story.content;
+  const { name } = story.content;
 
   return (
     <SbEditable content={story.content}>
       <Layout layout={layout}>
         <section className="resource-page content-center">
-          <h1 className="text-4xl font-bold mb-5">{title}</h1>
-          <main className="content">{render(body)}</main>
+          <h1 className="text-4xl font-bold mb-5">{name}</h1>
         </section>
       </Layout>
     </SbEditable>
@@ -30,7 +28,7 @@ export async function getStaticPaths() {
   const stories = await getStories({
     filter_query: {
       component: {
-        in: 'Resource Post'
+        in: 'blog_category'
       }
     }
   });
@@ -41,8 +39,10 @@ export async function getStaticPaths() {
   };
 }
 
-export const getStaticProps: GetStaticProps = async ({ params: { slug } }) => {
-  const { story, layout } = await getStory(`resources/${slug}`);
+export const getStaticProps: GetStaticProps = async ({
+  params: { category }
+}) => {
+  const { story, layout } = await getStory(`blog/category/${category}`);
 
   return {
     props: {
@@ -52,4 +52,4 @@ export const getStaticProps: GetStaticProps = async ({ params: { slug } }) => {
   };
 };
 
-export default ResourcePage;
+export default CategoryPage;

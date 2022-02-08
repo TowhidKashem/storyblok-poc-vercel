@@ -15,15 +15,15 @@ const Home: NextPage<{
 
   const { hero, card_spotlight, faq } = story.content;
 
-  const { title, answers } = faq[0];
+  const { title, answers } = faq.first();
 
   return (
     <SbEditable content={story.content}>
       <Layout layout={layout}>
         <section className="home content-center">
-          <Hero blok={hero[0]} />
+          <Hero blok={hero.first()} />
 
-          <Feature blok={card_spotlight[0]} />
+          <Feature blok={card_spotlight.first()} />
 
           <SbEditable content={faq}>
             <section className="faq">
