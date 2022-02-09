@@ -7,7 +7,7 @@
     "start": "next start",
     "lint": "next lint",
     "fetch-schema": "storyblok pull-components --space=143303",
-    "generate-types": "npm run fetch-schema && storyblok-generate-ts source=./components.143303.json target=./storyblok.types"
+    "generate-types": "npm run fetch-schema && storyblok-generate-ts source=./components.143303.json target=./storyblok"
   },
   "dependencies": {
     "autoprefixer": "^10.4.2",

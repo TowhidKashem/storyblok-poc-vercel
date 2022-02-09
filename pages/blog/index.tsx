@@ -1,33 +1,34 @@
 import type { NextPage } from 'next';
-import type { PageStoryblok } from 'storyblok.types';
+import type { PageStoryblok } from 'storyblok';
 import SbEditable from 'storyblok-react';
 import useStoryBlok from '@hooks/useStoryBlok';
-import { getStory, getStories } from '@utils/api';
-import Layout, { LayoutProps } from '@components/Layout/Layout';
+import Storyblok from '@lib/storyblok';
+import { getPage, getStoryblokOptions } from '@utils/api';
+import Layout from '@components/Layout/Layout';
 import Hero from '@components/Hero';
 import Card from '@components/Card';
 import Link from '@components/Link';
 
 const BlogHome: NextPage<{
-  story: PageStoryblok;
-  layout: LayoutProps;
+  readonly links: LinkBloks;
+  readonly story: PageStoryblok;
   posts: any;
-}> = ({ story, layout, posts }) => {
+}> = ({ links, story, posts }) => {
   story = useStoryBlok(story);
 
-  const { hero } = story.content;
+  const { layout, hero } = story.content;
 
   return (
     <SbEditable content={story.content}>
-      <Layout layout={layout}>
+      <Layout layout={layout.content} links={links}>
         <section className="resources-index content-center">
           <Hero blok={hero.first()} />
 
           <section className="stage">
             <main className="flex">
               {posts.map((post: any) => (
-                <Link key={post.uuid} href={post.full_slug}>
-                  <Card blok={post.content} />
+                <Link key={post.uuid} href={`/blog/${post.slug}`}>
+                  <Card key={post.uuid} blok={post.content} />
                 </Link>
               ))}
             </main>
@@ -39,9 +40,12 @@ const BlogHome: NextPage<{
 };
 
 export async function getStaticProps() {
-  const { story, layout } = await getStory('blog/blog-index');
+  const options = getStoryblokOptions();
 
-  const posts = await getStories({
+  const props = await getPage('blog/blog_index', 'blog_index');
+
+  const posts = await Storyblok.getAll('cdn/stories', {
+    ...options,
     filter_query: {
       component: {
         in: 'blog_post'
@@ -51,8 +55,7 @@ export async function getStaticProps() {
 
   return {
     props: {
-      story,
-      layout,
+      ...props,
       posts
     }
   };

@@ -1,8 +1,7 @@
 import { StoryParams, StoryData, StoriesParams } from 'storyblok-js-client';
 import Storyblok from '@lib/storyblok';
-import type { LayoutProps } from '@components/Layout/Layout';
 
-export const makeParams = (): StoryParams => {
+export const getStoryblokOptions = (): StoryParams => {
   const isPreview = process.env.ENVIRONMENT === 'development';
 
   if (isPreview) {
@@ -17,56 +16,26 @@ export const makeParams = (): StoryParams => {
   };
 };
 
-export const getLayout = async (): Promise<LayoutProps> => {
-  const options = makeParams();
-
-  try {
-    const links = await Storyblok.get('cdn/links', options); // nav links
-    const story = await Storyblok.get('cdn/stories/layout', options); // header, bottom cta
-
-    return {
-      links: links.data.links,
-      story: story.data.story
-    };
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const getStory = async (
-  slug: string
+export const getPage = async (
+  slug: string,
+  pageName: string,
+  joinFields: string[] = []
 ): Promise<{
+  links: LinkBloks;
   story: StoryData;
-  layout: LayoutProps;
 }> => {
-  const options = makeParams();
+  const options = getStoryblokOptions();
 
-  try {
-    const layout = await getLayout();
-    const story = await Storyblok.get('cdn/stories/' + slug, options);
-
-    return {
-      story: story.data.story,
-      layout
-    };
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const getStories = async (
-  query: StoriesParams['filter_query']
-): Promise<StoryData[]> => {
-  const options = makeParams();
-
-  try {
-    const stories = await Storyblok.getAll('cdn/stories', {
+  const [links, home] = await Promise.all([
+    Storyblok.get('cdn/links', options),
+    Storyblok.get(`cdn/stories/${slug}`, {
       ...options,
-      ...query
-    });
+      resolve_relations: [`${pageName}.layout`, ...joinFields].join(',')
+    })
+  ]);
 
-    return stories;
-  } catch (error) {
-    throw error;
-  }
+  return {
+    links: links.data.links,
+    story: home.data.story
+  };
 };

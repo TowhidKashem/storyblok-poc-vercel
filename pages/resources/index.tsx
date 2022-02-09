@@ -1,29 +1,27 @@
 import type { NextPage } from 'next';
-import type { PageStoryblok } from 'storyblok.types';
+import type { PageStoryblok } from 'storyblok';
 import SbEditable from 'storyblok-react';
 import Storyblok from '@lib/storyblok';
 import useStoryBlok from '@hooks/useStoryBlok';
-import { getStory, getStories, makeParams } from '@utils/api';
-import Layout, { LayoutProps } from '@components/Layout/Layout';
+import { getStoryblokOptions, getPage } from '@utils/api';
+import Layout from '@components/Layout/Layout';
 import Hero from '@components/Hero';
 import Card from '@components/Card';
 import Link from '@components/Link';
 
 const ResourceIndex: NextPage<{
-  story: PageStoryblok;
-  layout: LayoutProps;
+  readonly links: LinkBloks;
+  readonly story: PageStoryblok;
   tags: any;
   posts: any;
-}> = ({ story, layout, tags, posts }) => {
+}> = ({ links, story, tags, posts }) => {
   story = useStoryBlok(story);
 
-  const { hero } = story.content;
-
-  console.log('posts', posts);
+  const { layout, hero } = story.content;
 
   return (
     <SbEditable content={story.content}>
-      <Layout layout={layout}>
+      <Layout layout={layout.content} links={links}>
         <section className="resources-index content-center">
           <Hero blok={hero.first()} />
 
@@ -54,16 +52,18 @@ const ResourceIndex: NextPage<{
 };
 
 export async function getStaticProps() {
-  // get index page's story and base layout
-  const { story, layout } = await getStory('resources/resource-index');
+  const options = getStoryblokOptions();
+
+  const props = await getPage('resources/resource-index', 'resource_index');
 
   // get tags
   const {
     data: { tags }
-  } = await Storyblok.get('cdn/tags', makeParams());
+  } = await Storyblok.get('cdn/tags', options);
 
   // get all posts in the resources folder
-  const posts = await getStories({
+  const posts = await Storyblok.getAll('cdn/stories', {
+    ...options,
     filter_query: {
       component: {
         in: 'resource_page'
@@ -73,8 +73,7 @@ export async function getStaticProps() {
 
   return {
     props: {
-      story,
-      layout,
+      ...props,
       tags,
       posts
     }

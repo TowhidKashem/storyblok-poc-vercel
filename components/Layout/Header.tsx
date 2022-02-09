@@ -1,19 +1,16 @@
 import type { NextPage } from 'next';
-import type { LinkBlok } from './_data';
 import Image from 'next/image';
 import Link from '@components/Link';
-import type { HeaderStoryblok } from 'storyblok.types';
+import type { HeaderStoryblok } from 'storyblok';
 import SbEditable from 'storyblok-react';
 import { navigationItems } from './_data';
 import { getDropdownItems } from './_utils';
 
 const Header: NextPage<{
-  readonly links: LinkBlok[];
+  readonly links: LinkBloks;
   readonly rightNav: HeaderStoryblok;
 }> = ({ links, rightNav }) => {
   const quoteButton = rightNav.buttons.first();
-
-  // console.log('links', links);
 
   return (
     <header className="header content-center">

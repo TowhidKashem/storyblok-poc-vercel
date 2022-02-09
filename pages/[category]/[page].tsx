@@ -1,23 +1,24 @@
 import type { NextPage, GetStaticProps } from 'next';
-import type { InnerPageStoryblok } from 'storyblok.types';
 import SbEditable from 'storyblok-react';
+import type { PageStoryblok } from 'storyblok';
 import useStoryBlok from '@hooks/useStoryBlok';
-import { getStory, getStories } from '@utils/api';
-import Layout, { LayoutProps } from '@components/Layout/Layout';
+import Storyblok from '@lib/storyblok';
+import { getPage, getStoryblokOptions } from '@utils/api';
+import Layout from '@components/Layout/Layout';
 import Hero from '@components/Hero';
 import HeroDetail from '@components/HeroDetail';
 
 const CategoryPage: NextPage<{
-  readonly story: InnerPageStoryblok;
-  readonly layout: LayoutProps;
-}> = ({ story, layout }) => {
+  readonly links: LinkBloks;
+  readonly story: PageStoryblok;
+}> = ({ links, story }) => {
   story = useStoryBlok(story);
 
-  const { hero, detail_cards } = story.content;
+  const { layout, hero, detail_cards } = story.content;
 
   return (
     <SbEditable content={story.content}>
-      <Layout layout={layout}>
+      <Layout layout={layout.content} links={links}>
         <section className="page content-center">
           <Hero blok={hero.first()} />
 
@@ -35,7 +36,10 @@ const CategoryPage: NextPage<{
 };
 
 export async function getStaticPaths() {
-  const stories = await getStories({
+  const options = getStoryblokOptions();
+
+  const pages = await Storyblok.getAll('cdn/stories', {
+    ...options,
     filter_query: {
       component: {
         in: 'category_page'
@@ -44,7 +48,7 @@ export async function getStaticPaths() {
   });
 
   return {
-    paths: stories.map(({ full_slug }) => '/' + full_slug),
+    paths: pages.map(({ full_slug }) => '/' + full_slug),
     fallback: false
   };
 }
@@ -52,14 +56,8 @@ export async function getStaticPaths() {
 export const getStaticProps: GetStaticProps = async ({
   params: { category, page }
 }) => {
-  const { story, layout } = await getStory(`${category}/${page}`);
-
-  return {
-    props: {
-      story,
-      layout
-    }
-  };
+  const props = await getPage(`${category}/${page}`, 'category_page');
+  return { props };
 };
 
 export default CategoryPage;

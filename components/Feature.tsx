@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import type { FeatureStoryblok } from 'storyblok.types';
+import type { FeatureStoryblok } from 'storyblok';
 import SbEditable from 'storyblok-react';
 import Card from '@components/Card';
 

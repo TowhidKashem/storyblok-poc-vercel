@@ -1,25 +1,24 @@
 import type { NextPage } from 'next';
-import type { PageStoryblok } from 'storyblok.types';
+import type { PageStoryblok } from 'storyblok';
 import SbEditable from 'storyblok-react';
 import useStoryBlok from '@hooks/useStoryBlok';
-import { getStory } from '@utils/api';
+import { getPage } from '@utils/api';
 import Feature from '@components/Feature';
-import Layout, { LayoutProps } from '@components/Layout/Layout';
+import Layout from '@components/Layout/Layout';
 import Hero from '@components/Hero';
 
 const Home: NextPage<{
+  readonly links: LinkBloks;
   readonly story: PageStoryblok;
-  readonly layout: LayoutProps;
-}> = ({ story, layout }) => {
+}> = ({ links, story }) => {
   story = useStoryBlok(story);
 
-  const { hero, card_spotlight, faq } = story.content;
-
+  const { layout, hero, card_spotlight, faq } = story.content;
   const { title, answers } = faq.first();
 
   return (
     <SbEditable content={story.content}>
-      <Layout layout={layout}>
+      <Layout layout={layout.content} links={links}>
         <section className="home content-center">
           <Hero blok={hero.first()} />
 
@@ -49,14 +48,8 @@ const Home: NextPage<{
 };
 
 export async function getStaticProps() {
-  const { story, layout } = await getStory('home');
-
-  return {
-    props: {
-      story,
-      layout
-    }
-  };
+  const props = await getPage('home', 'home_page');
+  return { props };
 }
 
 export default Home;

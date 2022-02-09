@@ -1,12 +1,11 @@
 import type { NextPage } from 'next';
-import type { LinkBlok } from './_data';
 import Image from 'next/image';
 import Link from '@components/Link';
 import { navigationItems } from './_data';
 import { getDropdownItems } from './_utils';
 
 const Footer: NextPage<{
-  readonly links: LinkBlok[];
+  readonly links: LinkBloks;
 }> = ({ links }) => {
   return (
     <footer className="footer content-center">

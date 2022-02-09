@@ -1,22 +1,23 @@
 import type { NextPage, GetStaticProps } from 'next';
-import type { InnerPageStoryblok } from 'storyblok.types';
+import type { PageStoryblok } from 'storyblok';
 import SbEditable from 'storyblok-react';
 import { render } from 'storyblok-rich-text-react-renderer';
+import { getPage, getStoryblokOptions } from '@utils/api';
+import Storyblok from '@lib/storyblok';
 import useStoryBlok from '@hooks/useStoryBlok';
-import { getStory, getStories } from '@utils/api';
-import Layout, { LayoutProps } from '@components/Layout/Layout';
+import Layout from '@components/Layout/Layout';
 
 const BlogPost: NextPage<{
-  story: InnerPageStoryblok;
-  layout: LayoutProps;
-}> = ({ story, layout }) => {
+  readonly links: LinkBloks;
+  readonly story: PageStoryblok;
+}> = ({ links, story }) => {
   story = useStoryBlok(story);
 
-  const { title, body, thumbnail, author } = story.content;
+  const { layout, title, body, thumbnail, author } = story.content;
 
   return (
     <SbEditable content={story.content}>
-      <Layout layout={layout}>
+      <Layout layout={layout.content} links={links}>
         <section className="resource-page content-center">
           <h1 className="text-4xl font-bold mb-5">{title}</h1>
           <main className="content">{render(body)}</main>
@@ -24,12 +25,12 @@ const BlogPost: NextPage<{
             <address className="author">
               By{' '}
               <a rel="author" href="/author/john-doe">
-                John Doe - {author}
+                {author.name}
               </a>
             </address>
             on{' '}
             <time dateTime="2011-08-28" title="August 28th, 2011">
-              8/28/11
+              {story.first_published_at}
             </time>
           </section>
         </section>
@@ -39,7 +40,10 @@ const BlogPost: NextPage<{
 };
 
 export async function getStaticPaths() {
-  const stories = await getStories({
+  const options = getStoryblokOptions();
+
+  const posts = await Storyblok.getAll('cdn/stories', {
+    ...options,
     filter_query: {
       component: {
         in: 'blog_post'
@@ -47,23 +51,17 @@ export async function getStaticPaths() {
     }
   });
 
-  console.log('stories', stories);
-
   return {
-    paths: stories.map(({ full_slug }) => '/' + full_slug),
+    paths: posts.map(({ slug }) => `/blog/${slug}`),
     fallback: false
   };
 }
 
 export const getStaticProps: GetStaticProps = async ({ params: { post } }) => {
-  const { story, layout } = await getStory(`blog/posts/${post}`);
-
-  return {
-    props: {
-      story,
-      layout
-    }
-  };
+  const props = await getPage(`blog/posts/${post}`, 'blog_post', [
+    'blog_post.author'
+  ]);
+  return { props };
 };
 
 export default BlogPost;
