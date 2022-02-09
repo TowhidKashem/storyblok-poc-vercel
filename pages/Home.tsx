@@ -13,7 +13,7 @@ const Home: NextPage<{
 }> = ({ links, story }) => {
   story = useStoryBlok(story);
 
-  console.log('links', links);
+  // console.log('links', links);
 
   const { layout, hero, card_spotlight, faq } = story.content;
   const { title, answers } = faq.first();
