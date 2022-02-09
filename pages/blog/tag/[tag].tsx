@@ -1,6 +1,6 @@
 import type { NextPage, GetStaticProps } from 'next';
-import type { PageStoryblok } from 'storyblok';
-import Storyblok from '@lib/storyblok';
+import type { BlogTagStoryblok } from 'storyblok.types';
+import Storyblok from '@storyblok/client';
 import SbEditable from 'storyblok-react';
 import useStoryBlok from '@hooks/useStoryBlok';
 import { getPage, getStoryblokOptions } from '@utils/api';
@@ -8,7 +8,7 @@ import Layout from '@components/Layout/Layout';
 
 const TagPage: NextPage<{
   readonly links: LinkBloks;
-  readonly story: PageStoryblok;
+  readonly story: BlogTagStoryblok;
 }> = ({ links, story }) => {
   story = useStoryBlok(story);
 

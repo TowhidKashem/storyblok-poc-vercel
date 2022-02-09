@@ -1,6 +1,5 @@
 import type { NextPage } from 'next';
-import { getLayout } from '@utils/api';
-import Layout, { LayoutProps } from '@components/Layout/Layout';
+import Layout from '@components/Layout/Layout';
 
 const NotFound: NextPage<{
   layout: LayoutProps;

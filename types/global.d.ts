@@ -19,3 +19,7 @@ declare interface LinkBlok {
 declare interface LinkBloks {
   [key: string]: LinkBlok;
 }
+
+interface Window {
+  StoryblokBridge: any;
+}

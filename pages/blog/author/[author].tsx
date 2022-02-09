@@ -1,14 +1,14 @@
 import type { NextPage, GetStaticProps } from 'next';
-import type { PageStoryblok } from 'storyblok';
+import type { BlogAuthorStoryblok } from 'storyblok.types';
 import SbEditable from 'storyblok-react';
-import Storyblok from '@lib/storyblok';
+import Storyblok from '@storyblok/client';
 import useStoryBlok from '@hooks/useStoryBlok';
 import { getPage, getStoryblokOptions } from '@utils/api';
 import Layout from '@components/Layout/Layout';
 
 const AuthorPage: NextPage<{
   readonly links: LinkBloks;
-  readonly story: PageStoryblok;
+  readonly story: BlogAuthorStoryblok;
 }> = ({ links, story }) => {
   story = useStoryBlok(story);
 

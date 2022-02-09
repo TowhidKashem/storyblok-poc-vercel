@@ -1,3 +1,51 @@
+export interface BlogAuthorStoryblok {
+  name?: string;
+  bio?: string;
+  _uid: string;
+  component: "blog_author";
+  [k: string]: any;
+}
+
+export interface BlogCategoryStoryblok {
+  name?: string;
+  _uid: string;
+  component: "blog_category";
+  [k: string]: any;
+}
+
+export interface BlogIndexStoryblok {
+  layout?: string;
+  hero?: HeroStoryblok[];
+  _uid: string;
+  component: "blog_index";
+  [k: string]: any;
+}
+
+export interface BlogPostStoryblok {
+  layout?: string;
+  title?: string;
+  body?: any;
+  thumbnail: {
+    alt?: string;
+    copyright?: string;
+    id: number;
+    filename: string;
+    name: string;
+    title?: string;
+  };
+  author?: string;
+  _uid: string;
+  component: "blog_post";
+  [k: string]: any;
+}
+
+export interface BlogTagStoryblok {
+  name?: string;
+  _uid: string;
+  component: "blog_tag";
+  [k: string]: any;
+}
+
 export interface BottomCtaStoryblok {
   title?: string;
   button?: ButtonStoryblok[];
@@ -27,8 +75,18 @@ export interface CardStoryblok {
     title?: string;
   };
   tag?: string;
+  slug?: string;
   _uid: string;
   component: "card";
+  [k: string]: any;
+}
+
+export interface CategoryPageStoryblok {
+  layout?: string;
+  hero?: HeroStoryblok[];
+  detail_cards?: HeroDetailStoryblok[];
+  _uid: string;
+  component: "category_page";
   [k: string]: any;
 }
 
@@ -100,11 +158,13 @@ export interface HeroDetailStoryblok {
   [k: string]: any;
 }
 
-export interface InnerPageStoryblok {
-  hero?: HeroStoryblok[];
-  detail_cards?: HeroDetailStoryblok[];
+export interface HomePageStoryblok {
+  layout?: string;
+  hero: HeroStoryblok[];
+  card_spotlight?: FeatureStoryblok[];
+  faq?: FaqStoryblok[];
   _uid: string;
-  component: "Inner Page";
+  component: "home_page";
   [k: string]: any;
 }
 
@@ -112,7 +172,7 @@ export interface LayoutStoryblok {
   header?: HeaderStoryblok[];
   bottom_cta?: BottomCtaStoryblok[];
   _uid: string;
-  component: "Layout";
+  component: "layout";
   [k: string]: any;
 }
 
@@ -124,11 +184,27 @@ export interface LinkStoryblok {
   [k: string]: any;
 }
 
-export interface PageStoryblok {
+export interface ResourceIndexStoryblok {
+  layout?: string;
   hero?: HeroStoryblok[];
-  card_spotlight?: FeatureStoryblok[];
-  faq?: FaqStoryblok[];
   _uid: string;
-  component: "Page";
+  component: "resource_index";
+  [k: string]: any;
+}
+
+export interface ResourcePageStoryblok {
+  layout?: string;
+  title?: string;
+  body?: any;
+  thumbnail: {
+    alt?: string;
+    copyright?: string;
+    id: number;
+    filename: string;
+    name: string;
+    title?: string;
+  };
+  _uid: string;
+  component: "resource_page";
   [k: string]: any;
 }

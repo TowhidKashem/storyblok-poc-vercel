@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import type { PageStoryblok } from 'storyblok';
+import type { HomePageStoryblok } from 'storyblok.types';
 import SbEditable from 'storyblok-react';
 import useStoryBlok from '@hooks/useStoryBlok';
 import { getPage } from '@utils/api';
@@ -9,7 +9,7 @@ import Hero from '@components/Hero';
 
 const Home: NextPage<{
   readonly links: LinkBloks;
-  readonly story: PageStoryblok;
+  readonly story: HomePageStoryblok;
 }> = ({ links, story }) => {
   story = useStoryBlok(story);
 

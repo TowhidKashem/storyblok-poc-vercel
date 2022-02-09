@@ -2,12 +2,6 @@
 import { useEffect, useState } from 'react';
 import Storyblok from '@lib/storyblok';
 
-declare global {
-  interface Window {
-    StoryblokBridge: any;
-  }
-}
-
 const useStoryBlok = (originalStory) => {
   const [story, setStory] = useState(originalStory);
 

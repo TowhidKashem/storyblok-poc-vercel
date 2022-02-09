@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
-import type { PageStoryblok } from 'storyblok';
+import type { ResourceIndexStoryblok } from 'storyblok.types';
 import SbEditable from 'storyblok-react';
-import Storyblok from '@lib/storyblok';
+import Storyblok from '@storyblok/client';
 import useStoryBlok from '@hooks/useStoryBlok';
 import { getStoryblokOptions, getPage } from '@utils/api';
 import Layout from '@components/Layout/Layout';
@@ -11,7 +11,7 @@ import Link from '@components/Link';
 
 const ResourceIndex: NextPage<{
   readonly links: LinkBloks;
-  readonly story: PageStoryblok;
+  readonly story: ResourceIndexStoryblok;
   tags: any;
   posts: any;
 }> = ({ links, story, tags, posts }) => {

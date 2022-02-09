@@ -19,9 +19,10 @@
     "paths": {
       "*": ["types/*.d.ts"],
       "@components/*": ["components/*"],
+      "@storyblok/*": ["storyblok/*"],
+      "@types/*": ["types/*"],
       "@hooks/*": ["hooks/*"],
       "@utils/*": ["utils/*"],
-      "@lib/*": ["lib/*"],
       "@styles/*": ["styles/*"],
       "@public/*": ["public/*"],
     }

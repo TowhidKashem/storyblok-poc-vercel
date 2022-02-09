@@ -1,8 +1,8 @@
 import type { NextPage, GetStaticProps } from 'next';
+import type { CategoryPageStoryblok } from 'storyblok.types';
 import SbEditable from 'storyblok-react';
-import type { PageStoryblok } from 'storyblok';
+import Storyblok from '@storyblok/client';
 import useStoryBlok from '@hooks/useStoryBlok';
-import Storyblok from '@lib/storyblok';
 import { getPage, getStoryblokOptions } from '@utils/api';
 import Layout from '@components/Layout/Layout';
 import Hero from '@components/Hero';
@@ -10,7 +10,7 @@ import HeroDetail from '@components/HeroDetail';
 
 const CategoryPage: NextPage<{
   readonly links: LinkBloks;
-  readonly story: PageStoryblok;
+  readonly story: CategoryPageStoryblok;
 }> = ({ links, story }) => {
   story = useStoryBlok(story);
 

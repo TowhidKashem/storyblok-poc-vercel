@@ -1,5 +1,5 @@
-import { StoryParams, StoryData, StoriesParams } from 'storyblok-js-client';
-import Storyblok from '@lib/storyblok';
+import { StoryParams, StoryData } from 'storyblok-js-client';
+import Storyblok from '@storyblok/client';
 
 export const getStoryblokOptions = (): StoryParams => {
   const isPreview = process.env.ENVIRONMENT === 'development';
