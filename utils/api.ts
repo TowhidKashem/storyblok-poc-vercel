@@ -1,4 +1,4 @@
-import { StoryParams, StoryData } from 'storyblok-js-client';
+import type { StoryParams, StoryData } from 'storyblok-js-client';
 import Storyblok from '@storyblok/client';
 
 export const getOptions = (): StoryParams => {
