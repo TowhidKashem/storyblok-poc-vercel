@@ -3,7 +3,7 @@ import type { BlogTagStoryblok } from 'storyblok.types';
 import Storyblok from '@storyblok/client';
 import SbEditable from 'storyblok-react';
 import useStoryBlok from '@hooks/useStoryBlok';
-import { getPage, getStoryblokOptions } from '@utils/api';
+import { getPage, getOptions } from '@utils/api';
 import Layout from '@components/Layout/Layout';
 
 const TagPage: NextPage<{
@@ -26,7 +26,7 @@ const TagPage: NextPage<{
 };
 
 export async function getStaticPaths() {
-  const options = getStoryblokOptions();
+  const options = getOptions();
 
   const posts = await Storyblok.getAll('cdn/stories', {
     ...options,
@@ -46,8 +46,12 @@ export async function getStaticPaths() {
 export const getStaticProps: GetStaticProps = async ({
   params: { category }
 }) => {
-  const props = await getPage(`blog/category/${category}`, 'blog_category');
-  return { props };
+  return {
+    props: await getPage({
+      slug: `blog/category/${category}`,
+      contentType: 'blog_category'
+    })
+  };
 };
 
 export default TagPage;

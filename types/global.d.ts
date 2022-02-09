@@ -1,8 +1,8 @@
-declare interface Array<T> {
+interface Array<T> {
   first(this: T[]): T;
 }
 
-declare interface LinkBlok {
+interface LinkBlok {
   id: number;
   is_folder: boolean;
   is_startpage: boolean;
@@ -16,7 +16,7 @@ declare interface LinkBlok {
   uuid: string;
 }
 
-declare interface LinkBloks {
+interface LinkBloks {
   [key: string]: LinkBlok;
 }
 

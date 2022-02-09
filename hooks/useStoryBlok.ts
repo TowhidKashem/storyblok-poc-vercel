@@ -1,8 +1,7 @@
-//@ts-nocheck
 import { useEffect, useState } from 'react';
-import Storyblok from '@lib/storyblok';
+import Storyblok from '@storyblok/client';
 
-const useStoryBlok = (originalStory) => {
+const useStoryBlok = (originalStory: any) => {
   const [story, setStory] = useState(originalStory);
 
   useEffect(() => {
@@ -21,7 +20,7 @@ const useStoryBlok = (originalStory) => {
         );
 
         // live update the story on input events
-        storyblokInstance.on('input', (event) => {
+        storyblokInstance.on('input', (event: any) => {
           // check if the ids of the event and the passed story match
           if (story && event.story.content._uid === story.content._uid) {
             // change the story content through the setStory function
@@ -29,7 +28,7 @@ const useStoryBlok = (originalStory) => {
           }
         });
 
-        storyblokInstance.on('enterEditmode', (event) => {
+        storyblokInstance.on('enterEditmode', (event: any) => {
           // loading the draft version on initial enter of editor
           Storyblok.get(`cdn/stories/${event.storyId}`, {
             version: 'draft'
@@ -45,7 +44,9 @@ const useStoryBlok = (originalStory) => {
         });
       }
     }
-  }, [originalStory, setStory]); // runs the effect only once & defines effect dependencies
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [originalStory, setStory]);
 
   useEffect(() => {
     setStory(originalStory);

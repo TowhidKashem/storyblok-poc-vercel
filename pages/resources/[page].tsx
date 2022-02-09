@@ -4,7 +4,7 @@ import SbEditable from 'storyblok-react';
 import { render } from 'storyblok-rich-text-react-renderer';
 import Storyblok from '@storyblok/client';
 import useStoryBlok from '@hooks/useStoryBlok';
-import { getPage, getStoryblokOptions } from '@utils/api';
+import { getPage, getOptions } from '@utils/api';
 import Layout from '@components/Layout/Layout';
 
 const ResourcePage: NextPage<{
@@ -28,7 +28,7 @@ const ResourcePage: NextPage<{
 };
 
 export async function getStaticPaths() {
-  const options = getStoryblokOptions();
+  const options = getOptions();
 
   const posts = await Storyblok.getAll('cdn/stories', {
     ...options,
@@ -46,8 +46,12 @@ export async function getStaticPaths() {
 }
 
 export const getStaticProps: GetStaticProps = async ({ params: { page } }) => {
-  const props = await getPage(`resources/${page}`, 'resource_page');
-  return { props };
+  return {
+    props: await getPage({
+      slug: `resources/${page}`,
+      contentType: 'resource_page'
+    })
+  };
 };
 
 export default ResourcePage;

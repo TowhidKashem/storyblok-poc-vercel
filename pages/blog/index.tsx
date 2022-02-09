@@ -3,7 +3,7 @@ import type { BlogIndexStoryblok } from 'storyblok.types';
 import SbEditable from 'storyblok-react';
 import useStoryBlok from '@hooks/useStoryBlok';
 import Storyblok from '@storyblok/client';
-import { getPage, getStoryblokOptions } from '@utils/api';
+import { getPage, getOptions } from '@utils/api';
 import Layout from '@components/Layout/Layout';
 import Hero from '@components/Hero';
 import Card from '@components/Card';
@@ -40,9 +40,12 @@ const BlogHome: NextPage<{
 };
 
 export async function getStaticProps() {
-  const options = getStoryblokOptions();
+  const options = getOptions();
 
-  const props = await getPage('blog/blog_index', 'blog_index');
+  const props = await getPage({
+    slug: 'blog/blog_index',
+    contentType: 'blog_index'
+  });
 
   const posts = await Storyblok.getAll('cdn/stories', {
     ...options,

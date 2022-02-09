@@ -3,7 +3,7 @@ import type { CategoryPageStoryblok } from 'storyblok.types';
 import SbEditable from 'storyblok-react';
 import Storyblok from '@storyblok/client';
 import useStoryBlok from '@hooks/useStoryBlok';
-import { getPage, getStoryblokOptions } from '@utils/api';
+import { getPage, getOptions } from '@utils/api';
 import Layout from '@components/Layout/Layout';
 import Hero from '@components/Hero';
 import HeroDetail from '@components/HeroDetail';
@@ -36,7 +36,7 @@ const CategoryPage: NextPage<{
 };
 
 export async function getStaticPaths() {
-  const options = getStoryblokOptions();
+  const options = getOptions();
 
   const pages = await Storyblok.getAll('cdn/stories', {
     ...options,
@@ -56,8 +56,12 @@ export async function getStaticPaths() {
 export const getStaticProps: GetStaticProps = async ({
   params: { category, page }
 }) => {
-  const props = await getPage(`${category}/${page}`, 'category_page');
-  return { props };
+  return {
+    props: await getPage({
+      slug: `${category}/${page}`,
+      contentType: 'category_page'
+    })
+  };
 };
 
 export default CategoryPage;

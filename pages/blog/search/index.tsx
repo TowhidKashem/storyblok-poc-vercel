@@ -3,7 +3,7 @@ import type { PageStoryblok } from 'storyblok.types';
 import SbEditable from 'storyblok-react';
 import Storyblok from '@storyblok/client';
 import useStoryBlok from '@hooks/useStoryBlok';
-import { getPage, getStoryblokOptions } from '@utils/api';
+import { getPage, getOptions } from '@utils/api';
 import Layout from '@components/Layout/Layout';
 import Hero from '@components/Hero';
 import Card from '@components/Card';
@@ -52,9 +52,12 @@ const SearchPage: NextPage<{
 };
 
 export async function getStaticProps() {
-  const options = getStoryblokOptions();
+  const options = getOptions();
 
-  const props = await getPage('resources/resource-index', 'search');
+  const props = await getPage({
+    slug: 'resources/resource-index',
+    contentType: 'search'
+  });
 
   // get tags
   const {

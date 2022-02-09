@@ -2,7 +2,7 @@ import type { NextPage, GetStaticProps } from 'next';
 import type { BlogPostStoryblok } from 'storyblok.types';
 import SbEditable from 'storyblok-react';
 import { render } from 'storyblok-rich-text-react-renderer';
-import { getPage, getStoryblokOptions } from '@utils/api';
+import { getPage, getOptions } from '@utils/api';
 import Storyblok from '@storyblok/client';
 import useStoryBlok from '@hooks/useStoryBlok';
 import Layout from '@components/Layout/Layout';
@@ -40,7 +40,7 @@ const BlogPost: NextPage<{
 };
 
 export async function getStaticPaths() {
-  const options = getStoryblokOptions();
+  const options = getOptions();
 
   const posts = await Storyblok.getAll('cdn/stories', {
     ...options,
@@ -58,10 +58,13 @@ export async function getStaticPaths() {
 }
 
 export const getStaticProps: GetStaticProps = async ({ params: { post } }) => {
-  const props = await getPage(`blog/posts/${post}`, 'blog_post', [
-    'blog_post.author'
-  ]);
-  return { props };
+  return {
+    props: await getPage({
+      slug: `blog/posts/${post}`,
+      contentType: 'blog_post',
+      joinFields: ['author']
+    })
+  };
 };
 
 export default BlogPost;

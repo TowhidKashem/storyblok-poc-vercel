@@ -48,8 +48,12 @@ const Home: NextPage<{
 };
 
 export async function getStaticProps() {
-  const props = await getPage('home', 'home_page');
-  return { props };
+  return {
+    props: await getPage({
+      slug: 'home',
+      contentType: 'home_page'
+    })
+  };
 }
 
 export default Home;
