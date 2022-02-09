@@ -1,25 +1,17 @@
-interface Array<T> {
+declare type AlternateObject = import('storyblok-js-client').AlternateObject;
+
+declare interface Array<T> {
   first(this: T[]): T;
 }
 
-interface LinkBlok {
-  id: number;
-  is_folder: boolean;
+declare interface LinkBlok extends Omit<AlternateObject, 'full_slug'> {
   is_startpage: boolean;
-  name: string;
-  parent_id: number;
   path: string;
   position: number;
-  published: boolean;
   real_path: string;
-  slug: string;
   uuid: string;
 }
 
-interface LinkBloks {
-  [key: string]: LinkBlok;
-}
-
-interface Window {
+declare interface Window {
   StoryblokBridge: any;
 }

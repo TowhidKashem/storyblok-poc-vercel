@@ -13,7 +13,7 @@ export function useStoryblok(originalStory: any) {
     if (typeof StoryblokBridge !== 'undefined') {
       // initialize the bridge with your token
       const storyblokInstance = new StoryblokBridge({
-        resolveRelations: [`home_page.layout`]
+        resolveRelations: ['layout']
       });
 
       // reload on Next.js page on save or publish event in the Visual Editor
@@ -33,7 +33,7 @@ export function useStoryblok(originalStory: any) {
         // loading the draft version on initial enter of editor
         Storyblok.get(`cdn/stories/${event.storyId}`, {
           version: 'draft',
-          resolveRelations: [`home_page.layout`]
+          resolveRelations: ['layout']
         })
           .then(({ data }) => {
             if (data.story) {

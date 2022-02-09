@@ -9,7 +9,7 @@ import Card from '@components/Card';
 import Link from '@components/Link';
 
 const SearchPage: NextPage<{
-  readonly links: LinkBloks;
+  readonly links: LinkBlok[];
   readonly story: any;
   readonly tags: any;
   readonly posts: any;

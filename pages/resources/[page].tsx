@@ -8,7 +8,7 @@ import { getPage, getOptions } from '@utils/api';
 import Layout from '@components/Layout/Layout';
 
 const ResourcePage: NextPage<{
-  readonly links: LinkBloks;
+  readonly links: LinkBlok[];
   readonly story: ResourcePageStoryblok;
 }> = ({ links, story }) => {
   story = useStoryBlok(story);

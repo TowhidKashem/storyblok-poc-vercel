@@ -8,7 +8,7 @@ import useStoryBlok from '@hooks/useStoryBlok';
 import Layout from '@components/Layout/Layout';
 
 const BlogPost: NextPage<{
-  readonly links: LinkBloks;
+  readonly links: LinkBlok[];
   readonly story: BlogPostStoryblok;
 }> = ({ links, story }) => {
   story = useStoryBlok(story);

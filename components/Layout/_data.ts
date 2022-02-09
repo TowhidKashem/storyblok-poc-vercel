@@ -1,3 +1,13 @@
+import type { AlternateObject } from 'storyblok-js-client';
+
+export interface LinkBlok extends Omit<AlternateObject, 'full_slug'> {
+  is_startpage: boolean;
+  path: string;
+  position: number;
+  real_path: string;
+  uuid: string;
+}
+
 interface NavigationItem {
   storyblokFolderId: number;
   label: string;

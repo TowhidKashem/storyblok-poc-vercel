@@ -10,7 +10,7 @@ import Card from '@components/Card';
 import Link from '@components/Link';
 
 const ResourceIndex: NextPage<{
-  readonly links: LinkBloks;
+  readonly links: LinkBlok[];
   readonly story: ResourceIndexStoryblok;
   tags: any;
   posts: any;

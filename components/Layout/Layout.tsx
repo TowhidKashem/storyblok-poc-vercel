@@ -6,7 +6,7 @@ import Footer from '@components/Layout/Footer';
 import CTA from '@components/Layout/CTA';
 
 const Layout: NextPage<{
-  readonly links: LinkBloks;
+  readonly links: LinkBlok[];
   readonly layout: LayoutStoryblok;
 }> = ({ links, layout, children }) => {
   const { header, bottom_cta } = layout;

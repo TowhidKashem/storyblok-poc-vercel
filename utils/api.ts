@@ -25,7 +25,7 @@ export const getPage = async ({
   contentType: string;
   joinFields?: string[];
 }): Promise<{
-  links: LinkBloks;
+  links: LinkBlok[];
   story: StoryData;
 }> => {
   const options = getOptions();
@@ -34,7 +34,9 @@ export const getPage = async ({
     .join(',');
 
   const [links, story] = await Promise.all([
-    Storyblok.get('cdn/links', options),
+    Storyblok.getAll('cdn/links', {
+      ...options
+    }),
     Storyblok.get(`cdn/stories/${slug}`, {
       ...options,
       resolve_relations: resolveFields
@@ -42,7 +44,7 @@ export const getPage = async ({
   ]);
 
   return {
-    links: links.data.links,
+    links,
     story: story.data.story
   };
 };

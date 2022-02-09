@@ -5,7 +5,7 @@ import { navigationItems } from './_data';
 import { getDropdownItems } from './_utils';
 
 const Footer: NextPage<{
-  readonly links: LinkBloks;
+  readonly links: LinkBlok[];
 }> = ({ links }) => {
   return (
     <footer className="footer content-center">

@@ -7,7 +7,7 @@ import { getPage, getOptions } from '@utils/api';
 import Layout from '@components/Layout/Layout';
 
 const AuthorPage: NextPage<{
-  readonly links: LinkBloks;
+  readonly links: LinkBlok[];
   readonly story: BlogAuthorStoryblok;
 }> = ({ links, story }) => {
   story = useStoryBlok(story);

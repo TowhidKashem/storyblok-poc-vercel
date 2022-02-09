@@ -8,10 +8,12 @@ import Layout from '@components/Layout/Layout';
 import Hero from '@components/Hero';
 
 const Home: NextPage<{
-  readonly links: LinkBloks;
+  readonly links: LinkBlok[];
   readonly story: HomePageStoryblok;
 }> = ({ links, story }) => {
   story = useStoryBlok(story);
+
+  console.log('links', links);
 
   const { layout, hero, card_spotlight, faq } = story.content;
   const { title, answers } = faq.first();

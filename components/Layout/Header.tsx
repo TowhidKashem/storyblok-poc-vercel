@@ -7,7 +7,7 @@ import { navigationItems } from './_data';
 import { getDropdownItems } from './_utils';
 
 const Header: NextPage<{
-  readonly links: LinkBloks;
+  readonly links: LinkBlok[];
   readonly rightNav: HeaderStoryblok;
 }> = ({ links, rightNav }) => {
   const quoteButton = rightNav.buttons.first();

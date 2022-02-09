@@ -10,7 +10,7 @@ import Card from '@components/Card';
 import Link from '@components/Link';
 
 const BlogHome: NextPage<{
-  readonly links: LinkBloks;
+  readonly links: LinkBlok[];
   readonly story: BlogIndexStoryblok;
   posts: any;
 }> = ({ links, story, posts }) => {

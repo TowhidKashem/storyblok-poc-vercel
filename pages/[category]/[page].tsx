@@ -9,7 +9,7 @@ import Hero from '@components/Hero';
 import HeroDetail from '@components/HeroDetail';
 
 const CategoryPage: NextPage<{
-  readonly links: LinkBloks;
+  readonly links: LinkBlok[];
   readonly story: CategoryPageStoryblok;
 }> = ({ links, story }) => {
   story = useStoryBlok(story);
