@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import type { CardStoryblok } from 'storyblok';
+import type { CardStoryblok } from 'storyblok.types';
 import Image from 'next/image';
 import SbEditable from 'storyblok-react';
 

@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import type { HeroDetailStoryblok } from 'storyblok';
+import type { HeroDetailStoryblok } from 'storyblok.types';
 import classNames from 'classnames';
 import Image from 'next/image';
 import SbEditable from 'storyblok-react';

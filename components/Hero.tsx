@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import type { HeroStoryblok } from 'storyblok';
+import type { HeroStoryblok } from 'storyblok.types';
 import SbEditable from 'storyblok-react';
 
 const Hero: NextPage<{ blok: HeroStoryblok }> = ({ blok }) => {

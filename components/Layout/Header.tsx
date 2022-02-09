@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import Image from 'next/image';
 import Link from '@components/Link';
-import type { HeaderStoryblok } from 'storyblok';
+import type { HeaderStoryblok } from 'storyblok.types';
 import SbEditable from 'storyblok-react';
 import { navigationItems } from './_data';
 import { getDropdownItems } from './_utils';

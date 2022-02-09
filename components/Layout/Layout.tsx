@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import type { LayoutStoryblok } from 'storyblok';
+import type { LayoutStoryblok } from 'storyblok.types';
 import Head from 'next/head';
 import Header from '@components/Layout/Header';
 import Footer from '@components/Layout/Footer';

@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import type { BottomCtaStoryblok } from 'storyblok';
+import type { BottomCtaStoryblok } from 'storyblok.types';
 import SbEditable from 'storyblok-react';
 import Link from '@components/Link';
 
