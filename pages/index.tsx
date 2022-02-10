@@ -7,7 +7,7 @@ import Feature from '@components/Feature';
 import Layout from '@components/Layout/Layout';
 import Hero from '@components/Hero';
 
-const Home: NextPage<{
+const HomePage: NextPage<{
   readonly links: LinkBlok[];
   readonly story: HomePageStoryblok;
 }> = ({ links, story }) => {
@@ -58,4 +58,4 @@ export async function getStaticProps() {
   };
 }
 
-export default Home;
+export default HomePage;

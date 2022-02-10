@@ -13,6 +13,8 @@ const BlogPost: NextPage<{
 }> = ({ links, story }) => {
   story = useStoryBlok(story);
 
+  console.log('story', story);
+
   const { layout, title, body, thumbnail, author } = story.content;
 
   return (

@@ -13,13 +13,13 @@ module.exports = {
   env: {
     ENVIRONMENT: process.env.ENVIRONMENT,
     STORY_BLOK_ACCESS_TOKEN: process.env.STORY_BLOK_ACCESS_TOKEN
-  },
-  async rewrites() {
-    return [
-      {
-        source: '/',
-        destination: '/Home'
-      }
-    ];
   }
+  // async rewrites() {
+  //   return [
+  //     {
+  //       source: '/',
+  //       destination: '/Home'
+  //     }
+  //   ];
+  // }
 };
