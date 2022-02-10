@@ -18,7 +18,8 @@ let categoriesMap, tagsMap;
   categoriesMap = await getWordPressCategories();
   tagsMap = await getWordPressTags();
 
-  getWordPressPost();
+  getWordPressPost(4349);
+  // getWordPressPosts();
 })();
 
 async function getWordPressCategories() {
@@ -54,7 +55,22 @@ async function getWordPressTags(tags = [], page = 1) {
   return tags;
 }
 
-async function getWordPressPost() {
+async function getWordPressPost(postId) {
+  try {
+    const { data: post } = await axios.get(`${BASE_URL}/posts`, {
+      params: {
+        'include[]': postId,
+        per_page: 1
+      }
+    });
+
+    makeStoryblokPost(post[0]);
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+async function getWordPressPosts(page = 1) {
   try {
     const { data: posts } = await axios.get(`${BASE_URL}/posts`, {
       params: {
@@ -62,18 +78,25 @@ async function getWordPressPost() {
         page
       }
     });
-    post = posts[0];
-    makeStoryblokPost(post);
+
+    makeStoryblokPost(posts[0]);
   } catch (err) {
     console.error(err);
   }
 }
 
-async function makeStoryblokPost(post) {
-  const { title, slug, content, blocks, author, categories, tags, date } = post;
-
+async function makeStoryblokPost({
+  title,
+  slug,
+  content,
+  blocks,
+  author,
+  categories,
+  tags,
+  date
+}) {
   const turndownService = new TurndownService();
-  const richtextData = MarkdownToRichtext.markdownToRichtext(
+  const richTextContent = MarkdownToRichtext.markdownToRichtext(
     turndownService.turndown(content.rendered)
   );
 
@@ -96,7 +119,7 @@ async function makeStoryblokPost(post) {
       path: '',
       alternates: [],
       content: {
-        body: richtextData,
+        body: richTextContent,
         slug,
         title: title.rendered,
         categories: categories.map((categoryId) => categoriesMap[categoryId]),
