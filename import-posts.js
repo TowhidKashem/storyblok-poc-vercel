@@ -13,25 +13,56 @@ const Storyblok = new StoryblokClient({
 const SPACE_ID = 143303;
 const BASE_URL = 'https://bitly.com/blog/wp-json/wp/v2';
 
-const categoriesMap = getWordPressCategories();
-const tagsMap = getWordPressTags();
+let categoriesMap, tagsMap;
+(async () => {
+  categoriesMap = await getWordPressCategories();
+  tagsMap = await getWordPressTags();
+
+  getWordPressPost();
+})();
 
 async function getWordPressCategories() {
-  const categories = await axios.get(`${BASE_URL}/categories`);
-  return categories.data.map(({ id, name }) => ({ [id]: name }));
+  const { data: wordPressCategories } = await axios.get(
+    `${BASE_URL}/categories`,
+    {
+      params: {
+        per_page: 100
+      }
+    }
+  );
+
+  return wordPressCategories.map(({ id, name }) => ({
+    [id]: name
+  }));
 }
 
-async function getWordPressTags() {
-  const tags = await axios.get(`${BASE_URL}/tags?per_page=100`);
-  return tags.data.map(({ id, name }) => ({ [id]: name }));
+async function getWordPressTags(tags = [], page = 1) {
+  const { data: wordPressTags } = await axios.get(`${BASE_URL}/tags`, {
+    params: {
+      per_page: 100,
+      page
+    }
+  });
+
+  if (wordPressTags.length > 0) {
+    wordPressTags.forEach(({ id, name }) => {
+      tags.push({ [id]: name });
+    });
+    return getWordPressTags(tags, page + 1);
+  }
+
+  return tags;
 }
 
 async function getWordPressPost() {
   try {
-    const response = await axios.get(
-      'https://bitly.com/blog/wp-json/wp/v2/posts?per_page=10'
-    );
-    post = response.data[3];
+    const { data: posts } = await axios.get(`${BASE_URL}/posts`, {
+      params: {
+        per_page: 100,
+        page
+      }
+    });
+    post = posts[0];
     makeStoryblokPost(post);
   } catch (err) {
     console.error(err);
@@ -45,9 +76,6 @@ async function makeStoryblokPost(post) {
   const richtextData = MarkdownToRichtext.markdownToRichtext(
     turndownService.turndown(content.rendered)
   );
-
-  // console.log(tagsMap);
-  // return;
 
   Storyblok.post(`spaces/${SPACE_ID}/stories`, {
     publish: 1,
@@ -95,5 +123,3 @@ async function makeStoryblokPost(post) {
     .then((response) => console.log(response.data))
     .catch((error) => console.error(error.response.data));
 }
-
-getWordPressPost();
