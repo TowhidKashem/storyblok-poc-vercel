@@ -32,10 +32,15 @@ const BlogPost: NextPage<{
     <SbEditable content={story.content}>
       <Layout layout={layout.content} links={links}>
         <section className="resource-page blog-post content-center">
-          <time dateTime="2011-08-28" title="August 28th, 2011">
-            {publishDate}
-          </time>
-          <h1 className="text-4xl font-bold mb-5">{title}</h1>
+          <article className="post-hero">
+            <time dateTime="2011-08-28" title="August 28th, 2011">
+              {publishDate}
+            </time>
+            <section>
+              <h1 className="text-4xl font-bold mb-5">{title}</h1>
+              <Image src={image.filename} width={700} height={350} alt="" />
+            </section>
+          </article>
           <main className="content">{render(body)}</main>
           <footer>
             <section className="tags">
@@ -43,7 +48,7 @@ const BlogPost: NextPage<{
               <ul>
                 <li>
                   {story.tag_list.map((tag: string) => (
-                    <Link key={tag} href={`/tag/${slugify(tag)}`}>
+                    <Link key={tag} href={`/blog/tag/${slugify(tag)}`}>
                       <Pill label={tag} />
                     </Link>
                   ))}
@@ -57,7 +62,7 @@ const BlogPost: NextPage<{
                   {categories.map((category: string) => (
                     <Link
                       key={category}
-                      href={`/category/${slugify(category)}`}
+                      href={`/blog/category/${slugify(category)}`}
                     >
                       <Pill label={category} />
                     </Link>
@@ -66,7 +71,7 @@ const BlogPost: NextPage<{
               </ul>
             </section>
             <section className="author">
-              <Link rel="author" href={`/author/${author.slug}`}>
+              <Link rel="author" href={`/blog/author/${author.slug}`}>
                 <Image
                   src={author.content.image.filename}
                   alt={author.content.image.alt}

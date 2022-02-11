@@ -6,7 +6,7 @@ const TurndownService = require('turndown');
 
 dotenv.config({ path: '.env.local' });
 
-const storyblokBlogPostFolderId = 108205241;
+const storyblokBlogPostFolderId = 108207243;
 const storyblokLayoutStoryId = '5348e268-0dd1-496a-8beb-5304e85e7e13';
 const wordpressAuthorSlugToStoryblokAuthorIdMap = {
   trupti: '59af6b8f-c79e-4677-a022-06f4dc522b7e', // 63
@@ -28,7 +28,7 @@ let usersMap, categoriesMap, tagsMap;
   tagsMap = await getWordPressTags();
 
   // getWordPressPost(4335);
-  // getWordPressPosts();
+  getWordPressPosts();
 })();
 
 async function getWordPressUsers() {
@@ -57,8 +57,8 @@ async function getWordPressCategories() {
   );
 
   const categories = {};
-  wordPressCategories.forEach(({ id, name }) => {
-    categories[id] = name;
+  wordPressCategories.forEach(({ id, slug }) => {
+    categories[id] = slug;
   });
 
   return categories;

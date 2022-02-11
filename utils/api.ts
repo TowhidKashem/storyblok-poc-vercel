@@ -34,9 +34,7 @@ export const getPage = async ({
     .join(',');
 
   const [links, story] = await Promise.all([
-    Storyblok.getAll('cdn/links', {
-      ...options
-    }),
+    Storyblok.getAll('cdn/links', options),
     Storyblok.get(`cdn/stories/${slug}`, {
       ...options,
       resolve_relations: resolveFields

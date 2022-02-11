@@ -229,6 +229,19 @@ a {
 }
 
 /* Blog Post */
+.blog-post .post-hero {
+  margin-bottom: 20px;
+}
+
+.blog-post .post-hero section {
+  display: flex;
+}
+
+.blog-post .post-hero section h1 {
+  font-size: 43px;
+  line-height: 53px;
+}
+
 .blog-post footer section {
   padding: 30px 0;
   border-top: 1px solid #eee;

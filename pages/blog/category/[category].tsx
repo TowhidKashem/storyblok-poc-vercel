@@ -5,11 +5,14 @@ import Storyblok from '@storyblok/client';
 import useStoryBlok from '@hooks/useStoryBlok';
 import { getPage, getOptions } from '@utils/api';
 import Layout from '@components/Layout/Layout';
+import Card from '@components/Card';
+import Link from '@components/Link';
 
-const CategoryPage: NextPage<{
+const BlogCategory: NextPage<{
   readonly links: LinkBlok[];
   readonly story: BlogCategoryStoryblok;
-}> = ({ links, story }) => {
+  posts: any;
+}> = ({ links, story, posts }) => {
   story = useStoryBlok(story);
 
   const { layout, name } = story.content;
@@ -17,8 +20,17 @@ const CategoryPage: NextPage<{
   return (
     <SbEditable content={story.content}>
       <Layout layout={layout.content} links={links}>
-        <section className="resource-page content-center">
+        <section className="resource-page resources-index content-center">
           <h1 className="text-4xl font-bold mb-5">{name}</h1>
+          <section className="stage">
+            <main className="post-list">
+              {posts.map((post: any) => (
+                <Link key={post.uuid} href={`/blog/${post.slug}`}>
+                  <Card key={post.uuid} blok={post.content} />
+                </Link>
+              ))}
+            </main>
+          </section>
         </section>
       </Layout>
     </SbEditable>
@@ -46,12 +58,30 @@ export async function getStaticPaths() {
 export const getStaticProps: GetStaticProps = async ({
   params: { category }
 }) => {
+  const options = getOptions();
+
+  // get category page
+  const props = await getPage({
+    slug: `blog/category/${category}`,
+    contentType: 'blog_category'
+  });
+
+  // get all posts that belong in category
+  const posts = await Storyblok.getAll('cdn/stories', {
+    ...options,
+    filter_query: {
+      categories: {
+        in_array: category.toString()
+      }
+    }
+  });
+
   return {
-    props: await getPage({
-      slug: `blog/category/${category}`,
-      contentType: 'blog_category'
-    })
+    props: {
+      ...props,
+      posts
+    }
   };
 };
 
-export default CategoryPage;
+export default BlogCategory;
