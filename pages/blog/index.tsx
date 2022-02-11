@@ -5,7 +5,7 @@ import useStoryBlok from '@hooks/useStoryBlok';
 import Storyblok from '@storyblok/client';
 import { getPage, getOptions } from '@utils/api';
 import Layout from '@components/Layout/Layout';
-import Hero from '@components/Hero';
+import { BlogHero } from '@components/Hero';
 import Card from '@components/Card';
 import Link from '@components/Link';
 
@@ -16,16 +16,16 @@ const BlogHome: NextPage<{
 }> = ({ links, story, posts }) => {
   story = useStoryBlok(story);
 
-  const { layout, hero } = story.content;
+  const { layout, featured_hero } = story.content;
 
   return (
     <SbEditable content={story.content}>
       <Layout layout={layout.content} links={links}>
         <section className="resources-index content-center">
-          <Hero blok={hero.first()} />
+          <BlogHero blok={featured_hero} />
 
           <section className="stage">
-            <main className="flex">
+            <main className="post-list">
               {posts.map((post: any) => (
                 <Link key={post.uuid} href={`/blog/${post.slug}`}>
                   <Card key={post.uuid} blok={post.content} />
@@ -44,7 +44,8 @@ export async function getStaticProps() {
 
   const props = await getPage({
     slug: 'blog/blog_index',
-    contentType: 'blog_index'
+    contentType: 'blog_index',
+    joinFields: ['featured_hero']
   });
 
   const posts = await Storyblok.getAll('cdn/stories', {
