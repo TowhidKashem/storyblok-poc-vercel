@@ -18,7 +18,7 @@ let categoriesMap, tagsMap;
   categoriesMap = await getWordPressCategories();
   tagsMap = await getWordPressTags();
 
-  getWordPressPost(4349);
+  getWordPressPost(4335);
   // getWordPressPosts();
 })();
 
@@ -32,12 +32,15 @@ async function getWordPressCategories() {
     }
   );
 
-  return wordPressCategories.map(({ id, name }) => ({
-    [id]: name
-  }));
+  const categories = {};
+  wordPressCategories.forEach(({ id, name }) => {
+    categories[id] = name;
+  });
+
+  return categories;
 }
 
-async function getWordPressTags(tags = [], page = 1) {
+async function getWordPressTags(tags = {}, page = 1) {
   const { data: wordPressTags } = await axios.get(`${BASE_URL}/tags`, {
     params: {
       per_page: 100,
@@ -47,7 +50,7 @@ async function getWordPressTags(tags = [], page = 1) {
 
   if (wordPressTags.length > 0) {
     wordPressTags.forEach(({ id, name }) => {
-      tags.push({ [id]: name });
+      tags[id] = name;
     });
     return getWordPressTags(tags, page + 1);
   }
@@ -89,7 +92,7 @@ async function makeStoryblokPost({
   title,
   slug,
   content,
-  blocks,
+  yoast_head,
   author,
   categories,
   tags,
@@ -100,6 +103,13 @@ async function makeStoryblokPost({
     turndownService.turndown(content.rendered)
   );
 
+  categories = categories.map((categoryId) => categoriesMap[categoryId]);
+  tags = tags.map((tagId) => tagsMap[tagId]);
+
+  const og_image = yoast_head
+    .match(/<meta property=\"og:image\" content=\"(.+?)" \/>/g)[0]
+    .split(/content="(.+?)"/)[1];
+
   Storyblok.post(`spaces/${SPACE_ID}/stories`, {
     publish: 1,
     story: {
@@ -109,7 +119,7 @@ async function makeStoryblokPost({
       first_published_at: '2022-02-08T03:15:47.000Z',
       slug,
       full_slug: `blog/posts/${slug}`,
-      tag_list: tags.map((tagId) => tagsMap[tagId]),
+      tag_list: tags,
       is_startpage: false,
       parent_id: 106950118,
       meta_data: null,
@@ -122,18 +132,16 @@ async function makeStoryblokPost({
         body: richTextContent,
         slug,
         title: title.rendered,
-        categories: categories.map((categoryId) => categoriesMap[categoryId]),
+        categories,
         author: 'd7ce1ef8-1ef6-4865-bb1d-77a1f6e6029a',
         layout: '5348e268-0dd1-496a-8beb-5304e85e7e13',
         component: 'blog_post',
-        thumbnail: {
-          id: 3796808,
+        image: {
           alt: '',
           name: '',
           focus: null,
           title: '',
-          filename:
-            'https://a.storyblok.com/f/143303/800x450/f93de196fc/bitly_egoditor_blog.png',
+          filename: og_image,
           copyright: '',
           fieldtype: 'asset'
         }
