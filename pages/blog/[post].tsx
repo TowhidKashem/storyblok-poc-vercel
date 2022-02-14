@@ -51,7 +51,9 @@ const BlogPost: NextPage<Props> = ({
             </time>
             <section>
               <h1 className="text-4xl font-bold mb-5">{title}</h1>
-              <Image src={image.filename} width={700} height={350} alt="" />
+              {image && (
+                <Image src={image.filename} width={700} height={350} alt="" />
+              )}
             </section>
           </article>
           <main className="content">{render(body)}</main>
@@ -87,20 +89,24 @@ const BlogPost: NextPage<Props> = ({
                 </ul>
               </section>
             )}
-            <section className="author">
-              <Link rel="author" href={`/blog/author/${author.slug}`}>
-                <Image
-                  src={author.content.image.filename}
-                  alt={author.content.image.alt}
-                  width={200}
-                  height={200}
-                />
-              </Link>
-              <address>
-                <h4>{author.content.name}</h4>
-                <p>{author.content.bio}</p>
-              </address>
-            </section>
+            {author.content && (
+              <section className="author">
+                {author.content.image && (
+                  <Link rel="author" href={`/blog/author/${author.slug}`}>
+                    <Image
+                      src={author.content.image.filename}
+                      alt={author.content.image.alt}
+                      width={200}
+                      height={200}
+                    />
+                  </Link>
+                )}
+                <address>
+                  <h4>{author.content.name}</h4>
+                  <p>{author.content.bio}</p>
+                </address>
+              </section>
+            )}
           </footer>
           {relatedPosts.length > 0 && (
             <section className="related-posts resources-index">

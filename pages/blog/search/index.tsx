@@ -26,6 +26,7 @@ const SearchPage: NextPage<BaseProps<any>> = ({
     if (query.q) {
       loadSearchResults();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
 
   const loadSearchResults = async () => {
@@ -54,16 +55,22 @@ const SearchPage: NextPage<BaseProps<any>> = ({
       >
         <section className="resources-index content-center">
           <h1 className="search-header">
-            {headline} - "{query.q}"
+            {headline} - &quot;{query.q}&quot;
           </h1>
 
           <section className="stage">
             <main className="post-list">
-              {posts.map((post: any) => (
-                <Link key={post.uuid} href={`/blog/${post.slug}`}>
-                  <Card blok={post.content} />
-                </Link>
-              ))}
+              {posts.length > 0 ? (
+                <>
+                  {posts.map((post: any) => (
+                    <Link key={post.uuid} href={`/blog/${post.slug}`}>
+                      <Card blok={post.content} />
+                    </Link>
+                  ))}
+                </>
+              ) : (
+                <p>Nothing found..</p>
+              )}
             </main>
           </section>
         </section>
