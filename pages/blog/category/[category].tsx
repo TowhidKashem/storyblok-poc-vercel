@@ -77,8 +77,10 @@ export const getStaticProps: GetStaticProps = async ({
   });
 
   // get all posts that belong in category
-  const posts = await Storyblok.getAll('cdn/stories', {
+  const posts = await Storyblok.get('cdn/stories', {
     ...options,
+    page: 1,
+    per_page: 12,
     filter_query: {
       categories: {
         in_array: category.toString()
@@ -89,7 +91,7 @@ export const getStaticProps: GetStaticProps = async ({
   return {
     props: {
       ...props,
-      posts
+      posts: posts.data.stories
     }
   };
 };

@@ -1,5 +1,6 @@
 import type { NextPage } from 'next';
 import type { BlogIndexStoryblok } from 'storyblok.types';
+import { useState } from 'react';
 import SbEditable from 'storyblok-react';
 import useStoryBlok from '@hooks/useStoryBlok';
 import Storyblok from '@storyblok/client';
@@ -10,18 +11,44 @@ import Card from '@components/Card';
 import Link from '@components/Link';
 
 interface Props extends BaseProps<BlogIndexStoryblok> {
-  posts: any;
+  initialPosts: any;
+}
+
+const options = getOptions();
+
+async function fetchPosts(page: number) {
+  const posts = await Storyblok.get('cdn/stories', {
+    ...options,
+    page,
+    per_page: 12,
+    filter_query: {
+      component: {
+        in: 'blog_post'
+      }
+    }
+  });
+
+  return posts.data.stories;
 }
 
 const BlogHome: NextPage<Props> = ({
   categoryLinks,
   blogCategoryLinks,
   story,
-  posts
+  initialPosts
 }) => {
   story = useStoryBlok(story);
 
   const { layout, featured_hero } = story.content;
+
+  const [posts, setPosts] = useState(initialPosts);
+  const [page, setPage] = useState(1);
+
+  const loadMore = async () => {
+    const newPosts = await fetchPosts(page + 1);
+    setPosts((prevPosts: any) => [...prevPosts, ...newPosts]);
+    setPage((prevPage) => prevPage + 1);
+  };
 
   return (
     <SbEditable content={story.content}>
@@ -43,6 +70,9 @@ const BlogHome: NextPage<Props> = ({
               ))}
             </main>
           </section>
+          <button onClick={loadMore} className="btn btn-light-blue load-more">
+            Load More
+          </button>
         </section>
       </Layout>
     </SbEditable>
@@ -50,27 +80,18 @@ const BlogHome: NextPage<Props> = ({
 };
 
 export async function getStaticProps() {
-  const options = getOptions();
-
   const props = await getPage({
     slug: 'blog/blog_index',
     contentType: 'blog_index',
     joinFields: ['featured_hero']
   });
 
-  const posts = await Storyblok.getAll('cdn/stories', {
-    ...options,
-    filter_query: {
-      component: {
-        in: 'blog_post'
-      }
-    }
-  });
+  const posts = await fetchPosts(1);
 
   return {
     props: {
       ...props,
-      posts
+      initialPosts: posts
     }
   };
 }

@@ -64,8 +64,10 @@ export const getStaticProps: GetStaticProps = async ({ params: { tag } }) => {
   });
 
   // get all posts that are tagged with this tag
-  const posts = await Storyblok.getAll('cdn/stories', {
+  const posts = await Storyblok.get('cdn/stories', {
     ...options,
+    page: 1,
+    per_page: 12,
     with_tag: tag
   });
 
@@ -73,7 +75,7 @@ export const getStaticProps: GetStaticProps = async ({ params: { tag } }) => {
     props: {
       ...props,
       tag,
-      posts
+      posts: posts.data.stories
     }
   };
 };
