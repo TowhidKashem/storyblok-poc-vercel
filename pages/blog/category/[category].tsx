@@ -7,6 +7,7 @@ import { getPage, getOptions } from '@utils/api';
 import Layout from '@components/Layout/Layout';
 import Card from '@components/Card';
 import Link from '@components/Link';
+import { BlogHero } from '@components/Hero';
 
 interface Props extends BaseProps<BlogCategoryStoryblok> {
   posts: any;
@@ -20,7 +21,7 @@ const BlogCategory: NextPage<Props> = ({
 }) => {
   story = useStoryBlok(story);
 
-  const { layout, name } = story.content;
+  const { layout, name, featured_hero } = story.content;
 
   return (
     <SbEditable content={story.content}>
@@ -32,6 +33,9 @@ const BlogCategory: NextPage<Props> = ({
       >
         <section className="resource-page resources-index content-center">
           <h1 className="text-4xl font-bold mb-5">{name}</h1>
+
+          {featured_hero && <BlogHero blok={featured_hero} />}
+
           <section className="stage">
             <main className="post-list">
               {posts.map((post: any) => (
@@ -73,7 +77,8 @@ export const getStaticProps: GetStaticProps = async ({
   // get category page
   const props = await getPage({
     slug: `blog/category/${category}`,
-    contentType: 'blog_category'
+    contentType: 'blog_category',
+    joinFields: ['featured_hero']
   });
 
   // get all posts that belong in category

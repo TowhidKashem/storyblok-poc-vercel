@@ -5,16 +5,23 @@ import SbEditable from 'storyblok-react';
 import { render } from 'storyblok-rich-text-react-renderer';
 import { getPage, getOptions } from '@utils/api';
 import { slugify } from '@utils/url';
+import { getRandomArrayValues } from '@utils/array';
 import Storyblok from '@storyblok/client';
 import useStoryBlok from '@hooks/useStoryBlok';
 import Layout from '@components/Layout/Layout';
 import Link from '@components/Link';
 import Pill from '@components/Pill';
+import Card from '@components/Card';
 
-const BlogPost: NextPage<BaseProps<BlogPostStoryblok>> = ({
+interface Props extends BaseProps<BlogPostStoryblok> {
+  relatedPosts: any;
+}
+
+const BlogPost: NextPage<Props> = ({
   categoryLinks,
   blogCategoryLinks,
-  story
+  story,
+  relatedPosts
 }) => {
   story = useStoryBlok(story);
 
@@ -49,33 +56,37 @@ const BlogPost: NextPage<BaseProps<BlogPostStoryblok>> = ({
           </article>
           <main className="content">{render(body)}</main>
           <footer>
-            <section className="tags">
-              <header>By tags:</header>
-              <ul>
-                <li>
-                  {story.tag_list.map((tag: string) => (
-                    <Link key={tag} href={`/blog/tag/${slugify(tag)}`}>
-                      <Pill label={tag} />
-                    </Link>
-                  ))}
-                </li>
-              </ul>
-            </section>
-            <section className="categories">
-              <header>By category:</header>
-              <ul>
-                <li>
-                  {categories.map((category: string) => (
-                    <Link
-                      key={category}
-                      href={`/blog/category/${slugify(category)}`}
-                    >
-                      <Pill label={category} />
-                    </Link>
-                  ))}
-                </li>
-              </ul>
-            </section>
+            {story.tag_list.length > 0 && (
+              <section className="tags">
+                <header>By tags:</header>
+                <ul>
+                  <li>
+                    {story.tag_list.map((tag: string) => (
+                      <Link key={tag} href={`/blog/tag/${slugify(tag)}`}>
+                        <Pill label={tag} />
+                      </Link>
+                    ))}
+                  </li>
+                </ul>
+              </section>
+            )}
+            {categories.length > 0 && (
+              <section className="categories">
+                <header>By category:</header>
+                <ul>
+                  <li>
+                    {categories.map((category: string) => (
+                      <Link
+                        key={category}
+                        href={`/blog/category/${slugify(category)}`}
+                      >
+                        <Pill label={category} />
+                      </Link>
+                    ))}
+                  </li>
+                </ul>
+              </section>
+            )}
             <section className="author">
               <Link rel="author" href={`/blog/author/${author.slug}`}>
                 <Image
@@ -91,6 +102,18 @@ const BlogPost: NextPage<BaseProps<BlogPostStoryblok>> = ({
               </address>
             </section>
           </footer>
+          {relatedPosts.length > 0 && (
+            <section className="related-posts resources-index">
+              <h3>Related Articles</h3>
+              <main className="post-list">
+                {relatedPosts.map((post: any) => (
+                  <Link key={post.uuid} href={`/blog/${post.slug}`}>
+                    <Card key={post.uuid} blok={post.content} />
+                  </Link>
+                ))}
+              </main>
+            </section>
+          )}
         </section>
       </Layout>
     </SbEditable>
@@ -116,12 +139,33 @@ export async function getStaticPaths() {
 }
 
 export const getStaticProps: GetStaticProps = async ({ params: { post } }) => {
+  const options = getOptions();
+
+  const props = await getPage({
+    slug: `blog/posts/${post}`,
+    contentType: 'blog_post',
+    joinFields: ['author']
+  });
+
+  // 1. pick one of the categories this post belongs to at random
+  // 2. get 100 posts from that category or the max number that exists (which ever is smaller)
+  // 3. pick 6 posts from this set at random
+  const relatedPosts = await Storyblok.get('cdn/stories', {
+    ...options,
+    starts_with: 'blog/posts/',
+    per_page: 100,
+    filter_query: {
+      categories: {
+        in_array: getRandomArrayValues(props.story.content.categories, 1)[0]
+      }
+    }
+  });
+
   return {
-    props: await getPage({
-      slug: `blog/posts/${post}`,
-      contentType: 'blog_post',
-      joinFields: ['author']
-    })
+    props: {
+      ...props,
+      relatedPosts: getRandomArrayValues(relatedPosts.data.stories, 6)
+    }
   };
 };
 

@@ -354,6 +354,17 @@ a {
   margin-right: 10px;
 }
 
+.related-posts {
+  margin-bottom: 20px;
+}
+
+.related-posts h3 {
+  text-align: center;
+  font-weight: bold;
+  font-size: 33px;
+  margin-bottom: 30px;
+}
+
 /* Resource page */
 .resource-page .content {
   margin-bottom: 20px;
@@ -436,4 +447,11 @@ a {
 
 .resources-index .card header {
   padding: 10px 20px;
+}
+
+/* Search */
+.search-header {
+  font-size: 40px;
+  font-weight: bold;
+  margin-bottom: 20px;
 }

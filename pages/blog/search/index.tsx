@@ -1,28 +1,48 @@
 import type { NextPage } from 'next';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 import SbEditable from 'storyblok-react';
 import Storyblok from '@storyblok/client';
 import useStoryBlok from '@hooks/useStoryBlok';
 import { getPage, getOptions } from '@utils/api';
 import Layout from '@components/Layout/Layout';
-import Hero from '@components/Hero';
 import Card from '@components/Card';
 import Link from '@components/Link';
 
-interface Props extends BaseProps<any> {
-  readonly posts: any;
-  readonly tags: any;
-}
-
-const SearchPage: NextPage<Props> = ({
+const SearchPage: NextPage<BaseProps<any>> = ({
   categoryLinks,
   blogCategoryLinks,
-  story,
-  posts,
-  tags
+  story
 }) => {
   story = useStoryBlok(story);
 
-  const { layout, hero } = story.content;
+  const { layout, headline } = story.content;
+
+  const [posts, setPosts] = useState([]);
+
+  const { query } = useRouter();
+
+  useEffect(() => {
+    if (query.q) {
+      loadSearchResults();
+    }
+  }, [query]);
+
+  const loadSearchResults = async () => {
+    const options = getOptions();
+
+    const posts = await Storyblok.getAll('cdn/stories', {
+      ...options,
+      search_term: query.q,
+      filter_query: {
+        component: {
+          in: 'blog_post'
+        }
+      }
+    });
+
+    setPosts(posts);
+  };
 
   return (
     <SbEditable content={story.content}>
@@ -33,27 +53,18 @@ const SearchPage: NextPage<Props> = ({
         isBlogSection
       >
         <section className="resources-index content-center">
-          <Hero blok={hero.first()} />
+          <h1 className="search-header">
+            {headline} - "{query.q}"
+          </h1>
 
           <section className="stage">
-            <main className="flex">
+            <main className="post-list">
               {posts.map((post: any) => (
-                <Link key={post.uuid} href={post.full_slug}>
+                <Link key={post.uuid} href={`/blog/${post.slug}`}>
                   <Card blok={post.content} />
                 </Link>
               ))}
             </main>
-
-            <aside>
-              <header className="font-bold mb-5">Filter Resources</header>
-              <ul>
-                {tags.map((tag: any) => (
-                  <li key={tag.name}>
-                    <span className="tag">{tag.name}</span>
-                  </li>
-                ))}
-              </ul>
-            </aside>
           </section>
         </section>
       </Layout>
@@ -62,35 +73,11 @@ const SearchPage: NextPage<Props> = ({
 };
 
 export async function getStaticProps() {
-  const options = getOptions();
-
   const props = await getPage({
-    slug: 'resources/resource-index',
-    contentType: 'search'
+    slug: 'search_index',
+    contentType: 'search_index'
   });
-
-  // get tags
-  const {
-    data: { tags }
-  } = await Storyblok.get('cdn/tags', options);
-
-  // get all posts in the resources folder
-  const posts = await Storyblok.getAll('cdn/stories', {
-    ...options,
-    filter_query: {
-      component: {
-        in: 'resource_page'
-      }
-    }
-  });
-
-  return {
-    props: {
-      ...props,
-      tags,
-      posts
-    }
-  };
+  return { props };
 }
 
 export default SearchPage;
