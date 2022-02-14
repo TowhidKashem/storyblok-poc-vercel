@@ -11,10 +11,11 @@ import Layout from '@components/Layout/Layout';
 import Link from '@components/Link';
 import Pill from '@components/Pill';
 
-const BlogPost: NextPage<{
-  readonly links: LinkBlok[];
-  readonly story: BlogPostStoryblok;
-}> = ({ links, story }) => {
+const BlogPost: NextPage<BaseProps<BlogPostStoryblok>> = ({
+  categoryLinks,
+  blogCategoryLinks,
+  story
+}) => {
   story = useStoryBlok(story);
 
   const { layout, title, body, image, author, categories } = story.content;
@@ -30,7 +31,12 @@ const BlogPost: NextPage<{
 
   return (
     <SbEditable content={story.content}>
-      <Layout layout={layout.content} links={links}>
+      <Layout
+        layout={layout}
+        categoryLinks={categoryLinks}
+        blogCategoryLinks={blogCategoryLinks}
+        isBlogSection
+      >
         <section className="resource-page blog-post content-center">
           <article className="post-hero">
             <time dateTime="2011-08-28" title="August 28th, 2011">

@@ -8,18 +8,28 @@ import Layout from '@components/Layout/Layout';
 import Card from '@components/Card';
 import Link from '@components/Link';
 
-const BlogCategory: NextPage<{
-  readonly links: LinkBlok[];
-  readonly story: BlogCategoryStoryblok;
+interface Props extends BaseProps<BlogCategoryStoryblok> {
   posts: any;
-}> = ({ links, story, posts }) => {
+}
+
+const BlogCategory: NextPage<Props> = ({
+  categoryLinks,
+  blogCategoryLinks,
+  story,
+  posts
+}) => {
   story = useStoryBlok(story);
 
   const { layout, name } = story.content;
 
   return (
     <SbEditable content={story.content}>
-      <Layout layout={layout.content} links={links}>
+      <Layout
+        layout={layout}
+        categoryLinks={categoryLinks}
+        blogCategoryLinks={blogCategoryLinks}
+        isBlogSection
+      >
         <section className="resource-page resources-index content-center">
           <h1 className="text-4xl font-bold mb-5">{name}</h1>
           <section className="stage">

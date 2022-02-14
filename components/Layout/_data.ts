@@ -1,13 +1,3 @@
-import type { AlternateObject } from 'storyblok-js-client';
-
-export interface LinkBlok extends Omit<AlternateObject, 'full_slug'> {
-  is_startpage: boolean;
-  path: string;
-  position: number;
-  real_path: string;
-  uuid: string;
-}
-
 interface NavigationItem {
   storyblokFolderId: number;
   label: string;
@@ -76,5 +66,24 @@ export const navigationItems: NavigationItem[] = [
         description: 'FAQs and help articles'
       }
     ]
+  }
+];
+
+export const blogNavigationItems = [
+  {
+    label: 'Digital Marketing',
+    url: '/blog/category/digital-marketing'
+  },
+  {
+    label: 'Social Media Marketing',
+    url: '/blog/category/social-media-marketing'
+  },
+  {
+    label: 'Customer Service',
+    url: '/blog/category/customer-service'
+  },
+  {
+    label: 'Branding',
+    url: '/blog/category/branding'
   }
 ];

@@ -5,15 +5,18 @@ import { navigationItems } from './_data';
 import { getDropdownItems } from './_utils';
 
 const Footer: NextPage<{
-  readonly links: LinkBlok[];
-}> = ({ links }) => {
+  readonly categoryLinks: CategoryLink[];
+}> = ({ categoryLinks }) => {
   return (
     <footer className="footer content-center">
       <nav>
         {navigationItems.map(
           ({ storyblokFolderId, label, hasDropdown, dropdownItems }) => {
             if (hasDropdown && !dropdownItems) {
-              dropdownItems = getDropdownItems(links, storyblokFolderId);
+              dropdownItems = getDropdownItems(
+                categoryLinks,
+                storyblokFolderId
+              );
             }
 
             return (

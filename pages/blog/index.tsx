@@ -9,18 +9,28 @@ import { BlogHero } from '@components/Hero';
 import Card from '@components/Card';
 import Link from '@components/Link';
 
-const BlogHome: NextPage<{
-  readonly links: LinkBlok[];
-  readonly story: BlogIndexStoryblok;
+interface Props extends BaseProps<BlogIndexStoryblok> {
   posts: any;
-}> = ({ links, story, posts }) => {
+}
+
+const BlogHome: NextPage<Props> = ({
+  categoryLinks,
+  blogCategoryLinks,
+  story,
+  posts
+}) => {
   story = useStoryBlok(story);
 
   const { layout, featured_hero } = story.content;
 
   return (
     <SbEditable content={story.content}>
-      <Layout layout={layout.content} links={links}>
+      <Layout
+        layout={layout}
+        categoryLinks={categoryLinks}
+        blogCategoryLinks={blogCategoryLinks}
+        isBlogSection
+      >
         <section className="resources-index content-center">
           <BlogHero blok={featured_hero} />
 

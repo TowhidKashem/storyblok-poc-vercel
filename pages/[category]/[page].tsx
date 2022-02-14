@@ -8,17 +8,22 @@ import Layout from '@components/Layout/Layout';
 import Hero from '@components/Hero';
 import HeroDetail from '@components/HeroDetail';
 
-const CategoryPage: NextPage<{
-  readonly links: LinkBlok[];
-  readonly story: CategoryPageStoryblok;
-}> = ({ links, story }) => {
+const CategoryPage: NextPage<BaseProps<CategoryPageStoryblok>> = ({
+  categoryLinks,
+  blogCategoryLinks,
+  story
+}) => {
   story = useStoryBlok(story);
 
   const { layout, hero, detail_cards } = story.content;
 
   return (
     <SbEditable content={story.content}>
-      <Layout layout={layout.content} links={links}>
+      <Layout
+        layout={layout}
+        categoryLinks={categoryLinks}
+        blogCategoryLinks={blogCategoryLinks}
+      >
         <section className="page content-center">
           <Hero blok={hero.first()} />
 

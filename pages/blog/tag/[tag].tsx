@@ -7,16 +7,27 @@ import Layout from '@components/Layout/Layout';
 import Card from '@components/Card';
 import Link from '@components/Link';
 
-const TagPage: NextPage<{
-  readonly links: LinkBlok[];
-  readonly story: BlogTagStoryblok;
-  tag: string;
-  posts: any;
-}> = ({ links, story, tag, posts }) => {
+interface Props extends BaseProps<BlogTagStoryblok> {
+  readonly tag: string;
+  readonly posts: any;
+}
+
+const TagPage: NextPage<Props> = ({
+  categoryLinks,
+  blogCategoryLinks,
+  story,
+  tag,
+  posts
+}) => {
   const { layout } = story.content;
 
   return (
-    <Layout layout={layout.content} links={links}>
+    <Layout
+      layout={layout}
+      categoryLinks={categoryLinks}
+      blogCategoryLinks={blogCategoryLinks}
+      isBlogSection
+    >
       <section className="resource-page resources-index content-center">
         <h1 className="text-4xl font-bold mb-5">{unslugify(tag)}</h1>
         <section className="stage">

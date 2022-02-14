@@ -25,7 +25,8 @@ export const getPage = async ({
   contentType: string;
   joinFields?: string[];
 }): Promise<{
-  links: LinkBlok[];
+  categoryLinks: CategoryLink[];
+  blogCategoryLinks: CategoryLink[];
   story: StoryData;
 }> => {
   const options = getOptions();
@@ -33,8 +34,17 @@ export const getPage = async ({
     .map((field) => `${contentType}.${field}`)
     .join(',');
 
-  const [links, story] = await Promise.all([
+  const [categoryLinks, blogCategoryLinks, story] = await Promise.all([
+    // Category nav
     Storyblok.getAll('cdn/links', options),
+
+    // Blog category nav
+    Storyblok.getAll('cdn/datasource_entries', {
+      ...options,
+      datasource: 'blog-categories'
+    }),
+
+    // Pages in category dropdown
     Storyblok.get(`cdn/stories/${slug}`, {
       ...options,
       resolve_relations: resolveFields
@@ -42,7 +52,8 @@ export const getPage = async ({
   ]);
 
   return {
-    links,
+    categoryLinks,
+    blogCategoryLinks,
     story: story.data.story
   };
 };

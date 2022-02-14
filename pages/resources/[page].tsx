@@ -7,17 +7,22 @@ import useStoryBlok from '@hooks/useStoryBlok';
 import { getPage, getOptions } from '@utils/api';
 import Layout from '@components/Layout/Layout';
 
-const ResourcePage: NextPage<{
-  readonly links: LinkBlok[];
-  readonly story: ResourcePageStoryblok;
-}> = ({ links, story }) => {
+const ResourcePage: NextPage<BaseProps<ResourcePageStoryblok>> = ({
+  categoryLinks,
+  blogCategoryLinks,
+  story
+}) => {
   story = useStoryBlok(story);
 
   const { layout, title, body } = story.content;
 
   return (
     <SbEditable content={story.content}>
-      <Layout layout={layout.content} links={links}>
+      <Layout
+        layout={layout}
+        categoryLinks={categoryLinks}
+        blogCategoryLinks={blogCategoryLinks}
+      >
         <section className="resource-page content-center">
           <h1 className="text-4xl font-bold mb-5">{title}</h1>
           <main className="content">{render(body)}</main>

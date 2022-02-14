@@ -7,9 +7,9 @@ import { navigationItems } from './_data';
 import { getDropdownItems } from './_utils';
 
 const Header: NextPage<{
-  readonly links: LinkBlok[];
+  readonly categoryLinks: CategoryLink[];
   readonly rightNav: HeaderStoryblok;
-}> = ({ links, rightNav }) => {
+}> = ({ categoryLinks, rightNav }) => {
   const quoteButton = rightNav.buttons.first();
 
   return (
@@ -17,8 +17,8 @@ const Header: NextPage<{
       <Link href="/">
         <Image
           src="https://docrdsfx76ssb.cloudfront.net/static/1642780665/pages/wp-content/uploads/2021/08/bitly_logo.svg"
-          width={150}
-          height={150}
+          width={130}
+          height={130}
           alt=""
         />
       </Link>
@@ -27,7 +27,10 @@ const Header: NextPage<{
           {navigationItems.map(
             ({ storyblokFolderId, label, url, hasDropdown, dropdownItems }) => {
               if (hasDropdown && !dropdownItems) {
-                dropdownItems = getDropdownItems(links, storyblokFolderId);
+                dropdownItems = getDropdownItems(
+                  categoryLinks,
+                  storyblokFolderId
+                );
               }
 
               return (

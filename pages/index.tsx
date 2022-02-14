@@ -7,20 +7,23 @@ import Feature from '@components/Feature';
 import Layout from '@components/Layout/Layout';
 import Hero from '@components/Hero';
 
-const HomePage: NextPage<{
-  readonly links: LinkBlok[];
-  readonly story: HomePageStoryblok;
-}> = ({ links, story }) => {
+const HomePage: NextPage<BaseProps<HomePageStoryblok>> = ({
+  categoryLinks,
+  blogCategoryLinks,
+  story
+}) => {
   story = useStoryBlok(story);
-
-  // console.log('links', links);
 
   const { layout, hero, card_spotlight, faq } = story.content;
   const { title, answers } = faq.first();
 
   return (
     <SbEditable content={story.content}>
-      <Layout layout={layout.content} links={links}>
+      <Layout
+        layout={layout}
+        categoryLinks={categoryLinks}
+        blogCategoryLinks={blogCategoryLinks}
+      >
         <section className="home content-center">
           <Hero blok={hero.first()} />
 

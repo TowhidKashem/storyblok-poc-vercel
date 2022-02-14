@@ -1,12 +1,22 @@
 export interface BlogAuthorStoryblok {
+  layout?: string;
   name?: string;
   bio?: string;
+  image?: {
+    alt?: string;
+    copyright?: string;
+    id: number;
+    filename: string;
+    name: string;
+    title?: string;
+  };
   _uid: string;
   component: "blog_author";
   [k: string]: any;
 }
 
 export interface BlogCategoryStoryblok {
+  layout?: string;
   name?: string;
   _uid: string;
   component: "blog_category";
@@ -15,7 +25,7 @@ export interface BlogCategoryStoryblok {
 
 export interface BlogIndexStoryblok {
   layout?: string;
-  hero?: HeroStoryblok[];
+  featured_hero?: string;
   _uid: string;
   component: "blog_index";
   [k: string]: any;
@@ -23,9 +33,10 @@ export interface BlogIndexStoryblok {
 
 export interface BlogPostStoryblok {
   layout?: string;
-  title?: string;
-  body?: any;
-  thumbnail: {
+  slug?: string;
+  author?: string;
+  categories?: any[];
+  image?: {
     alt?: string;
     copyright?: string;
     id: number;
@@ -33,7 +44,8 @@ export interface BlogPostStoryblok {
     name: string;
     title?: string;
   };
-  author?: string;
+  title?: string;
+  body?: any;
   _uid: string;
   component: "blog_post";
   [k: string]: any;
@@ -66,7 +78,7 @@ export interface ButtonStoryblok {
 export interface CardStoryblok {
   title?: string;
   description?: string;
-  thumbnail: {
+  image: {
     alt?: string;
     copyright?: string;
     id: number;
@@ -196,7 +208,7 @@ export interface ResourcePageStoryblok {
   layout?: string;
   title?: string;
   body?: any;
-  thumbnail: {
+  image: {
     alt?: string;
     copyright?: string;
     id: number;
@@ -206,5 +218,12 @@ export interface ResourcePageStoryblok {
   };
   _uid: string;
   component: "resource_page";
+  [k: string]: any;
+}
+
+export interface TagIndexStoryblok {
+  layout?: string;
+  _uid: string;
+  component: "tag_index";
   [k: string]: any;
 }

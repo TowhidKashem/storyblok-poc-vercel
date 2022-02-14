@@ -4,7 +4,11 @@ declare interface Array<T> {
   first(this: T[]): T;
 }
 
-declare interface LinkBlok extends Omit<AlternateObject, 'full_slug'> {
+declare interface Window {
+  StoryblokBridge: any;
+}
+
+declare interface CategoryLink extends Omit<AlternateObject, 'full_slug'> {
   is_startpage: boolean;
   path: string;
   position: number;
@@ -12,6 +16,15 @@ declare interface LinkBlok extends Omit<AlternateObject, 'full_slug'> {
   uuid: string;
 }
 
-declare interface Window {
-  StoryblokBridge: any;
+declare interface BlogCategoryLink {
+  id: number;
+  name: string;
+  value: string;
+  dimension_value: None;
+}
+
+declare interface BaseProps<T> {
+  readonly categoryLinks: CategoryLink[];
+  readonly blogCategoryLinks: BlogCategoryLink[];
+  readonly story: T;
 }
