@@ -6,6 +6,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "netlify": "yarn netlify deploy --dir=out",
     "fetch-schema": "cd storyblok && storyblok pull-components --space=143303",
     "generate-types": "npm run fetch-schema && storyblok-generate-ts source=./storyblok/components.143303.json target=./types/storyblok.types"
   },
@@ -28,6 +29,7 @@
     "dotenv": "^16.0.0",
     "eslint": "8.7.0",
     "eslint-config-next": "12.0.8",
+    "netlify-cli": "^9.5.0",
     "storyblok": "^3.10.4",
     "storyblok-generate-ts": "^1.3.0",
     "storyblok-markdown-richtext": "^1.0.1",
